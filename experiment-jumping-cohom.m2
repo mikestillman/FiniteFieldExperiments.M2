@@ -1,4 +1,5 @@
 -- Run this in directory FiniteFieldExperiments.M2/
+--test
 restart
 needsPackage "MinimalPrimes"
 installMinprimes()
