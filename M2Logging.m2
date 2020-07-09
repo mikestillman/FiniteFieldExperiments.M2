@@ -218,7 +218,8 @@ Logger(String) := HashTable => ( loggerName )->
     return Logger(loggerName, LogLevel.ERROR );
 );
 
---
+beginDocumentation()
+
 doc ///
     Key
        Logger
@@ -286,5 +287,9 @@ TEST ///
 
 ///
 
-end
+end--
 
+restart
+needsPackage "M2Logging"
+installPackage "M2Logging"
+check M2Logging

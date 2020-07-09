@@ -10,18 +10,12 @@ newPackage(
            Email => "hans.christian.v.bothmer@math.uni-hamburg.de", 
            HomePage => "http://www.crcg.de/wiki/Bothmer"}    
       },
-     Configuration => {},
      PackageExports => {"M2Logging"},
      Headline => "black boxes for explicit and implicitly given ideals",
      DebuggingMode => true,
      CacheExampleOutput => false,
      AuxiliaryFiles=>true
 )
-
-
-needsPackage "M2Logging";
-
-
 
 export { 
     "Error",
@@ -442,34 +436,6 @@ clearCoeffDenominators (Ideal)  :=  Ideal =>  (IdealWithRationalCoeffs)->
     modgens := apply(flatten entries gens IdealWithRationalCoeffs, i->polynomialLCMDenominator(i)*i );
     return sub(ideal modgens,dstrng );
 )
-
-
-doc ///
-    Key
-        clearCoeffDenominators
-        (clearCoeffDenominators, Ideal )   
-    Headline
-        convert an ideal with rational coefficients to an ideal with integer coefficients
-    Usage   
-        clearCoeffDenominators(IdealInQQ)
-    Inputs  
-        IdealInQQ:Ideal
-             ideal with rational coefficients
-    Outputs
-        : Ideal
-             ideal with integer coefficients with the same zero set over QQ as the input ideal
-    Description
-        Text
-           \break  Example:  convert an ideal with coefficients in QQ to an ideal with   coefficients in ZZ
-        Example          
-            RQ = QQ[x];
-            FQ = {1/3*x+1,1/5*x+2};        
-            IFQ = ideal FQ
-            IFZ = clearCoeffDenominators(IFQ)
-    Caveat
-        Conversion implemented only for cases where the ideal coefficient ring is QQ( or ZZ).
-///
-
 
 
 -- testClearCoeffDenominators()        
@@ -2839,49 +2805,6 @@ TEST ///
     
 ///
 
-doc ///
-   Key
-        (ideal, BlackBoxIdeal)
-   Headline
-        extracts the ideal from a BlackBoxIdeal object
-   Usage   
-        ideal bbI
-   Inputs  
-        bbI:BlackBoxIdeal
-             a BlackBoxIdeal
-   Outputs
-        : Ideal
-            the corresponding ideal of the black box
-   Description   
-        Text    
-           Extracts an ideal for a black box, if the equations were given explicitly
-           or reconstructs the ideal from an evaluation. 
-        Text
-           Lets start with the simpler example where the ideal equations were given explicitly to the black box:
-        Example
-           K = ZZ/11;
-           R  = K[x,y];
-           I = ideal (x^2-y^2);
-           bbI = new BlackBoxIdeal from I;
-           ideal bbI
-        Text 
-           Now we give an example where the ideal is reconstructed from an evaluation.
-        Text
-           As an example we use the computation of a determinant (see @TO "blackBoxIdealFromEvaluation" @)
-        Text
-           We construct the black box:
-        Example            
-           K = ZZ/11;
-           n = 2;
-           matrixAt = point -> matrix apply(n,i->apply(n,j->point_(i*n+j)_0)) ;             
-           detAt = point -> matrix{{det matrixAt(point)}};
-           R = K[a_(0,0)..a_(n-1,n-1)];
-           bbDet = blackBoxIdealFromEvaluation(R,detAt);
-        Text
-           Now it is possible to extract the explicit equations from the black box (though it is usually not recomended)    
-        Example
-           ideal bbDet
-///
 
 testBlackBoxIdealFromEvaluation = ()->
 (
@@ -2929,6 +2852,78 @@ testBlackBoxIdealFromEvaluation = ()->
 
 );
     
+beginDocumentation()
+
+doc ///
+   Key
+        (ideal, BlackBoxIdeal)
+   Headline
+        extracts the ideal from a BlackBoxIdeal object
+   Usage   
+        ideal bbI
+   Inputs  
+        bbI:BlackBoxIdeal
+             a BlackBoxIdeal
+   Outputs
+        : Ideal
+            the corresponding ideal of the black box
+   Description   
+        Text    
+           Extracts an ideal for a black box, if the equations were given explicitly
+           or reconstructs the ideal from an evaluation. 
+        Text
+           Lets start with the simpler example where the ideal equations were given explicitly to the black box:
+        Example
+           K = ZZ/11;
+           R  = K[x,y];
+           I = ideal (x^2-y^2);
+           bbI = new BlackBoxIdeal from I;
+           ideal bbI
+        Text 
+           Now we give an example where the ideal is reconstructed from an evaluation.
+        Text
+           As an example we use the computation of a determinant (see @TO "blackBoxIdealFromEvaluation" @)
+        Text
+           We construct the black box:
+        Example            
+           K = ZZ/11;
+           n = 2;
+           matrixAt = point -> matrix apply(n,i->apply(n,j->point_(i*n+j)_0)) ;             
+           detAt = point -> matrix{{det matrixAt(point)}};
+           R = K[a_(0,0)..a_(n-1,n-1)];
+           bbDet = blackBoxIdealFromEvaluation(R,detAt);
+        Text
+           Now it is possible to extract the explicit equations from the black box (though it is usually not recomended)    
+        Example
+           ideal bbDet
+///
+
+doc ///
+    Key
+        clearCoeffDenominators
+        (clearCoeffDenominators, Ideal )   
+    Headline
+        convert an ideal with rational coefficients to an ideal with integer coefficients
+    Usage   
+        clearCoeffDenominators(IdealInQQ)
+    Inputs  
+        IdealInQQ:Ideal
+             ideal with rational coefficients
+    Outputs
+        : Ideal
+             ideal with integer coefficients with the same zero set over QQ as the input ideal
+    Description
+        Text
+           \break  Example:  convert an ideal with coefficients in QQ to an ideal with   coefficients in ZZ
+        Example          
+            RQ = QQ[x];
+            FQ = {1/3*x+1,1/5*x+2};        
+            IFQ = ideal FQ
+            IFZ = clearCoeffDenominators(IFQ)
+    Caveat
+        Conversion implemented only for cases where the ideal coefficient ring is QQ( or ZZ).
+///
+
 
 doc ///
    Key
@@ -6149,7 +6144,7 @@ undocumented {
 
 
 
-end
+end--------------------------------------------------------------
 
 -- undocumented: "compatible"
 

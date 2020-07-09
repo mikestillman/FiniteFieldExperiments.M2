@@ -30,8 +30,11 @@ bb = blackBoxIdeal I;
 pointOnLine = matrix{{0,0,1_K}}
 pointOnPlane = matrix{{0,1,0_K}}
 
-bb.interpolateAt(pointOnLine, 1)
-bb.interpolateAt(pointOnPlane, 1)
+bb.interpolateAt(pointOnLine, 1) -- not working
+bb.interpolateAt(pointOnPlane, 1) -- not working 
+
+assert(ideal bb.interpolateComponentAt(pointOnLine, 1) == ideal(x,y))
+assert(ideal bb.interpolateComponentAt(pointOnPlane, 1) == ideal z)
 	   
    break
   restart 
