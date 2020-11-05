@@ -12,6 +12,24 @@
 %\setlength{\parindent}{0mm}
 %\setlength{\parskip}{3mm}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% for M2 code %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% use this verbatim like environment to insert Macaulay2 code.
+%% Another program can replace this block with it execution
+\usepackage{fancyvrb}
+
+\newenvironment{m2}
+  {
+    % First, we tell fancyvrb that we're inside a verbatim environment.
+    \tiny
+    \VerbatimEnvironment
+    \begin{Verbatim}[frame=single]%
+  }
+  {\end{Verbatim}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \usepackage[left=1.5in,top=1in,right=1.5in,bottom=1in]{geometry}
 
 \usepackage{graphicx}
@@ -154,7 +172,7 @@ of some parameter space. In this situation one is often interested in the strati
 Here one is interested in the components of $X$ and their moduli interpretation. Our running example in this case is the variety of complexes. Here $X$ is represented by a {\tt BlackBoxIdeal}.
 \end{enumerate}
 
-In both cases the study of $X$ is done over a finite field by looking at a large number random points in $\AA^n$. Since we are over a finite field, we have some non zero chance of finding points in interesting strata (in the first situation) or on interesting components (in the second case). Moreover the statistics of such a finite field experiment contain non trivial heuristic information about the stratification (in the first case) or the irreducible components of $X$ (in the second situation). The interesting points and the statistical information generated are collected in an object of type {\tt FiniteFieldExperiment}.
+In both cases the study of $X$ is done over a finite field by looking at a large number of random points in $\AA^n$. Since we are over a finite field, we have some non zero chance of finding points in interesting strata (in the first case) or on interesting components (in the second case). Moreover the statistics of such a finite field experiment contain non trivial heuristic information about the stratification (in the first case) or the irreducible components of $X$ (in the second case). The interesting points and the statistical information generated are collected in an object of type {\tt FiniteFieldExperiment}.
 
 In our implementation the package {\tt BlackBoxParameterSpaces} contains the tools to set up a parameter space $X$ as above together with its universal family, so that it can be used in a finite field experiment. It also provides some black-box-algorithms that still work if instead of the equations of $X \subset \AA^n$ only an algorithm to evaluate the equations is given. To explain the difference between an equation and an evaluation algorithm we look at the example of determinants.
 
@@ -173,6 +191,20 @@ For novices, the structured way of setting up a finite field experiment with thi
 {\color{red} (put references to Frank and Tonoli here)}
 
 \
+
+
+\begin{m2}
+  needsPackage "BlackBoxParameterSpaces"
+  needsPackage "FiniteFieldExperiments"
+  kk = ZZ/7
+\end{m2}
+
+\begin{m2}
+  S = kk[a..d]
+  f = () -> (
+    3 + 4
+    )
+\end{m2}
 
 %%%%%%%%%%%%%%%%%%%%%
 \section{Black-Box-Parameter spaces}
@@ -257,6 +289,10 @@ Returning to the cubic surfaces of the preceding section we set up a finite fiel
 \
 
 {\color{red} (put the finite field experiment in the example of cubic surfaces here)}
+
+\begin{m2}
+  -- cubic example here.
+\end{m2}
 
 \
 

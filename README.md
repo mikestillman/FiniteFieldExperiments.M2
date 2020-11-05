@@ -30,3 +30,18 @@ or read the online help with
 `viewHelp FiniteFieldExperiments`
 
 
+Todo:
+
+- BlackBoxIdeals: rename to BlackBoxParameterSpaces
+- Mike puts cubic example (mega) into tex format
+    i.e. in Documentation tex dir: add M2-code stuff to be able to run examples.
+- Chris: shorten the tex file to only the parameter space version.
+- Mike: finish tex file
+- after we are happy with it: we put it back into the package documentation
+-  (Mike: check on katex use)
+-  some itemize lists, and links might be to be handled by hand.
+- these are the packages to get ready for distribution with M2
+   BlackBoxParameterSpaces, FiniteFieldExperiments, M2Logging, IntervalPkg.
+-- fix bugs and interface for BlackBoxIdeals
+
+

@@ -4,6 +4,7 @@
 restart
 needsPackage"BlackBoxIdeals"
 needsPackage"FiniteFieldExperiments"
+setRandomSeed "8943758347"
 
 -- we work in char 7
 K = ZZ/7

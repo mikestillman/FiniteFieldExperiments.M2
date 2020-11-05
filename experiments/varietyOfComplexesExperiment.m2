@@ -7,7 +7,7 @@
 
 restart
 needsPackage"FiniteFieldExperiments"
-
+setRandomSeed 0
 K = ZZ/5
 --R = K[a_1,a_2]**K[b_1..b_4]
 R = K[a_1,a_2,b_1..b_4] -- bihomogeneous is a problem with interpolation
