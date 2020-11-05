@@ -13,7 +13,7 @@ newPackage(
            HomePage => "http://www.crcg.de/wiki/User:Kroeker"}
       },
      Configuration => {},
-     PackageExports => {"BlackBoxIdeals", "IntervalPkg" },
+     PackageExports => {"BlackBoxParameterSpaces", "IntervalPkg" },
      Headline => "finite field experiments for explicit and implicitly given ideals and parameter spaces",
      DebuggingMode => false,
      CacheExampleOutput => true,
@@ -42,7 +42,7 @@ export {
   "createIterator",
   "createRandomPointIterator",
   "Map",
-  -- "isOnComponent", böhse, symbol bereits in BlackBoxIdeals. KONFLIKT
+  -- "isOnComponent", böhse, symbol bereits in BlackBoxParameterSpaces. KONFLIKT
   "poissonEstimate",
   "Experiment",
   "InterpolationImage",
@@ -2152,7 +2152,7 @@ doc ///
             a blackBoxIdeal
    Description
         Text
-            Creates an @TO Experiment@ from a black box, see @TO BlackBoxIdeals@.
+            Creates an @TO Experiment@ from a black box, see @TO BlackBoxParameterSpaces@.
                 
             First we create an ideal we want to analyse and put it into a blackbox:
         Example      
@@ -4081,7 +4081,21 @@ doc ///
 
 
 
-end
+end------------------------------------------------------------------
+
+restart
+uninstallPackage "FiniteFieldExperiments"
+uninstallPackage "BlackBoxParameterSpaces"
+uninstallPackage "IntervalPkg"
+uninstallPackage "M2Logging"
+restart
+installPackage "M2Logging"
+installPackage "IntervalPkg"
+installPackage "BlackBoxParameterSpaces"
+installPackage "FiniteFieldExperiments"
+check BlackBoxParameterSpaces
+check FiniteFieldExperiments
+
 ---
 
 --update := method();
@@ -4151,11 +4165,11 @@ uninstallPackage"FiniteFieldExperiments"
 time installPackage"FiniteFieldExperiments"
 
 viewHelp FiniteFieldExperiments
-viewHelp BlackBoxIdeals
+viewHelp BlackBoxParameterSpaces
 
 restart
 
-loadPackage"BlackBoxIdeals"
+loadPackage"BlackBoxParameterSpaces"
 load "FiniteFieldExperiments.m2"
 needsPackage"FiniteFieldExperiments"
 

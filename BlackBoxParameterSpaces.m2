@@ -1,5 +1,5 @@
 newPackage(
-     "BlackBoxIdeals",
+     "BlackBoxParameterSpaces",
      Version => "1.0", 
      Date => "24.03.2017",
      Authors => {{
@@ -266,7 +266,7 @@ TEST ///
 
 
 
---load "./BlackBoxIdeals/Exceptions.m2";
+--load "./BlackBoxParameterSpaces/Exceptions.m2";
 ------------------------------------------------
 -- EXCEPTIONS
 ------------------------------------------------
@@ -285,7 +285,7 @@ PointNotOnBlackBox = new Type of Exception;
 ------------------------------------------------
 -- END EXCEPTIONS
 ------------------------------------------------
---load "./BlackBoxIdeals/Utils.m2";
+--load "./BlackBoxParameterSpaces/Utils.m2";
 
 ------------------------------------------------
 -- UTILS
@@ -385,7 +385,7 @@ testGuessAcceptedParameterNumber = ()->
 
 
 TEST ///
-    debug BlackBoxIdeals
+    debug BlackBoxParameterSpaces
     idealBlackBoxesProtect()
     testGuessAcceptedParameterNumber()
 ///
@@ -589,20 +589,20 @@ needsPackage "SimpleDoc";
 needsPackage "Text";
 
 
-BlackBoxLogger = Logger("BlackBoxIdeals");
+BlackBoxLogger = Logger("BlackBoxParameterSpaces");
 
 -- todo: how to switch this on and off by the user? using closures again? 
---if BlackBoxIdeals#Options#DebuggingMode then 
+--if BlackBoxParameterSpaces#Options#DebuggingMode then 
 --    BlackBoxLogger.setLogLevel(LogLevel.DEBUG);
 
-if BlackBoxIdeals#Options#DebuggingMode then
+if BlackBoxParameterSpaces#Options#DebuggingMode then
     errorDepth=0;
 
 
 
 bblog := BlackBoxLogger; --shortcut
 
---if BlackBoxIdeals#Options#DebuggingMode then bblog.setLogLevel(LogLevel.DEBUG);
+--if BlackBoxParameterSpaces#Options#DebuggingMode then bblog.setLogLevel(LogLevel.DEBUG);
 
 setBlackBoxLogLevel = (level)->
 (
@@ -629,14 +629,14 @@ savedEpsRings := new MutableHashTable;
 -- The workaround is to register the same property at least twice using the symbol  getGlobalSymbol( 'PP' ) as a key.
 -- I'm not sure, but for some situations it was also necessary to use the symbol from 'User#"private dictionary"'
 -- via getGlobalSymbol( User#"private dictionary",'PP')
--- and the symbol from the package dictionary "BlackBoxIdeals.Dictionary"
+-- and the symbol from the package dictionary "BlackBoxParameterSpaces.Dictionary"
 -- see also https://github.com/jakobkroeker/FiniteFieldExperiments.M2/issues/116
 -- 
 -- TODO question: what happens in case the user loads a package which defines the same symbol?
 
 -- artificial example:  
 -- restart
--- loadPackage "BlackBoxIdeals"
+-- loadPackage "BlackBoxParameterSpaces"
 -- fragileHT = new HashTable from {
 --   getGlobalSymbol(User#"private dictionary", "valuesAt") => 5
 -- }
@@ -648,7 +648,7 @@ getPropertySymbols := method ();
 getPropertySymbols(String) := List => (propertyName)->
 (
     propertySymbols := {} ;
-    try (  propertySymbols = propertySymbols | { getGlobalSymbol(BlackBoxIdeals.Dictionary, propertyName)} );
+    try (  propertySymbols = propertySymbols | { getGlobalSymbol(BlackBoxParameterSpaces.Dictionary, propertyName)} );
 
     -- todo question: should the symbol in the users private dictionary always be created?
     try  (  propertySymbols = propertySymbols | { getGlobalSymbol propertyName} ) else 
@@ -762,7 +762,7 @@ testEpsRing = ()->
 
 
 TEST ///
-    debug BlackBoxIdeals
+    debug BlackBoxParameterSpaces
     testEpsRing();
 ///
 
@@ -857,7 +857,7 @@ testDeduceNumGenerators = ()->
 
 
 TEST ///
-    debug BlackBoxIdeals
+    debug BlackBoxParameterSpaces
     idealBlackBoxesProtect()
     testDeduceNumGenerators()
 ///
@@ -983,7 +983,7 @@ testDeduceJacobianAt = ()->
 
 
 TEST ///
-    debug BlackBoxIdeals
+    debug BlackBoxParameterSpaces
     idealBlackBoxesProtect()
     testDeduceJacobianAt()
 ///
@@ -1684,8 +1684,8 @@ joinJetSets (JetSet,JetSet) := JetSet => (jetSet1, jetSet2 )->
 
 TEST ///
     -- restart 
-    -- loadPackage "BlackBoxIdeals"
-    debug BlackBoxIdeals --otherwise we have no 'compatible()'
+    -- loadPackage "BlackBoxParameterSpaces"
+    debug BlackBoxParameterSpaces --otherwise we have no 'compatible()'
     K = QQ;
     R = K[x,y];
     bbI = new BlackBoxIdeal from ideal x*y;
@@ -1718,7 +1718,7 @@ TEST ///
 ///
 
 
-load "./BlackBoxIdeals/Interpolation.m2";
+load "./BlackBoxParameterSpaces/Interpolation.m2";
 
 
 -- development remark: we need jetAt at least per blackbox individually.
@@ -1940,8 +1940,8 @@ blackBoxParameterSpaceInternal( Type, ZZ, Ring  ) := HashTable => ( resultType, 
         assert(propertyName=!=null); 
 
         packageSymbol := null;
-        if BlackBoxIdeals.Dictionary#?propertyName then 
-        packageSymbol  = BlackBoxIdeals.Dictionary#propertyName;
+        if BlackBoxParameterSpaces.Dictionary#?propertyName then 
+        packageSymbol  = BlackBoxParameterSpaces.Dictionary#propertyName;
 
         -- step 1
         bbPointProperties = new MutableHashTable from bbPointProperties;
@@ -2380,18 +2380,18 @@ blackBoxParameterSpaceInternal( Type, ZZ, Ring  ) := HashTable => ( resultType, 
     --
     blackBox.memberMethods = ()->
     (   
-        methods:= { getGlobalSymbol( BlackBoxIdeals.Dictionary, "memberMethods" ) ,
-                    getGlobalSymbol( BlackBoxIdeals.Dictionary, "attributes" ) ,
-                    getGlobalSymbol( BlackBoxIdeals.Dictionary, "pointProperties" ),
-                    getGlobalSymbol( BlackBoxIdeals.Dictionary, "pointPropertiesAsSymbols" ),
-                    getGlobalSymbol( BlackBoxIdeals.Dictionary, "hasPointProperty" ),
-                    --getGlobalSymbol( BlackBoxIdeals.Dictionary, "pointProperty" ),
-                    getGlobalSymbol( BlackBoxIdeals.Dictionary, "registerPointProperty" ),
-                    getGlobalSymbol( BlackBoxIdeals.Dictionary, "setSingularityTestOptions" ),
-                    getGlobalSymbol( BlackBoxIdeals.Dictionary, "rpp" ), 
-                    getGlobalSymbol( BlackBoxIdeals.Dictionary, "upp" ), 
-                    getGlobalSymbol( BlackBoxIdeals.Dictionary, "updatePointProperty" )
-                    --getGlobalSymbol( BlackBoxIdeals.Dictionary, "unknownIsValid" )
+        methods:= { getGlobalSymbol( BlackBoxParameterSpaces.Dictionary, "memberMethods" ) ,
+                    getGlobalSymbol( BlackBoxParameterSpaces.Dictionary, "attributes" ) ,
+                    getGlobalSymbol( BlackBoxParameterSpaces.Dictionary, "pointProperties" ),
+                    getGlobalSymbol( BlackBoxParameterSpaces.Dictionary, "pointPropertiesAsSymbols" ),
+                    getGlobalSymbol( BlackBoxParameterSpaces.Dictionary, "hasPointProperty" ),
+                    --getGlobalSymbol( BlackBoxParameterSpaces.Dictionary, "pointProperty" ),
+                    getGlobalSymbol( BlackBoxParameterSpaces.Dictionary, "registerPointProperty" ),
+                    getGlobalSymbol( BlackBoxParameterSpaces.Dictionary, "setSingularityTestOptions" ),
+                    getGlobalSymbol( BlackBoxParameterSpaces.Dictionary, "rpp" ), 
+                    getGlobalSymbol( BlackBoxParameterSpaces.Dictionary, "upp" ), 
+                    getGlobalSymbol( BlackBoxParameterSpaces.Dictionary, "updatePointProperty" )
+                    --getGlobalSymbol( BlackBoxParameterSpaces.Dictionary, "unknownIsValid" )
             };
     --  methods:= {   memberMethods,
     --                attributes,
@@ -2429,7 +2429,7 @@ blackBoxParameterSpaceInternal( Type, ZZ, Ring  ) := HashTable => ( resultType, 
         all = delete(symb,all);
         if ( blackBox#?"valuesAt" ) then
         (
-            all = all | { getGlobalSymbol( BlackBoxIdeals.Dictionary, "numGenerators" ) };
+            all = all | { getGlobalSymbol( BlackBoxParameterSpaces.Dictionary, "numGenerators" ) };
         );
         sortedAttributes := sort apply(all, i-> ( toString i, i ));
         sortedAttributes = apply(sortedAttributes, i->(i_1));
@@ -3056,7 +3056,7 @@ doc ///
 
 
 TEST ///
-    debug BlackBoxIdeals
+    debug BlackBoxParameterSpaces
     idealBlackBoxesProtect()
     testClearCoeffDenominators()
 ///
@@ -3064,26 +3064,26 @@ TEST ///
 
 
 TEST ///
-    debug BlackBoxIdeals
+    debug BlackBoxParameterSpaces
     idealBlackBoxesProtect()
     testNestedRingCoeffsLCMDenominator()
 ///
          
 
 TEST ///
-    debug BlackBoxIdeals
+    debug BlackBoxParameterSpaces
     idealBlackBoxesProtect()
     testTensoredClearCoeffDenominators()
 ///
 
 TEST ///
-    debug BlackBoxIdeals
+    debug BlackBoxParameterSpaces
     idealBlackBoxesProtect()
     testBlackBoxIdeal()
 ///
 
 TEST ///
-    debug BlackBoxIdeals
+    debug BlackBoxParameterSpaces
     idealBlackBoxesProtect()
     testBlackBoxIdealFromEvaluation()
 ///
@@ -3091,7 +3091,7 @@ TEST ///
 
 TEST ///
 
-    debug BlackBoxIdeals
+    debug BlackBoxParameterSpaces
     idealBlackBoxesProtect()
 
     R = ZZ[x_0..x_3]
@@ -3167,7 +3167,7 @@ TEST ///
 
 
 TEST ///
-    --debug BlackBoxIdeals
+    --debug BlackBoxParameterSpaces
     
     bbRankM = blackBoxParameterSpace( 5 ,ZZ )
     assert(bbRankM.numVariables==5);
@@ -3248,7 +3248,7 @@ TEST ///
    
 ///
 
---load "./BlackBoxIdeals/documentation/blackBoxParameterSpace.m2";
+--load "./BlackBoxParameterSpaces/documentation/blackBoxParameterSpace.m2";
 
 
 -- how to document 
@@ -3529,7 +3529,7 @@ doc ///
 
 doc ///
     Key
-        BlackBoxIdeals
+        BlackBoxParameterSpaces
     Headline
           black boxes for implicitly given ideals
     Description
@@ -3568,7 +3568,7 @@ doc ///
 ///
 
 TEST  /// 
-    debug BlackBoxIdeals
+    debug BlackBoxParameterSpaces
     idealBlackBoxesProtect()
 
     -- bblog is not defined... why ?
@@ -6148,14 +6148,17 @@ end--------------------------------------------------------------
 
 -- undocumented: "compatible"
 
-
-uninstallPackage"BlackBoxIdeals"
-loadPackage "BlackBoxIdeals"
-installPackage"BlackBoxIdeals"
-check BlackBoxIdeals
-
-
-
+restart
+uninstallPackage"BlackBoxParameterSpaces"
+uninstallPackage "IntervalPkg"
+uninstallPackage "M2Logging"
+restart
+loadPackage "BlackBoxParameterSpaces"
+restart
+installPackage "M2Logging"
+installPackage "IntervalPkg"
+installPackage"BlackBoxParameterSpaces"
+check BlackBoxParameterSpaces
 
 -- Todo: introduce force mode option for registerPointProperty? (overwriting registered property?)
 -- todo: introduce for all known properties a precomposition with checkInputPoint

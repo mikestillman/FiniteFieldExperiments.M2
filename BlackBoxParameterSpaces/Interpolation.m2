@@ -307,7 +307,7 @@ ideal ( InterpolatedComponent) := Ideal => (ii)->
 
  
 TEST ///
-    -- loadPackage "BlackBoxIdeals"
+    -- loadPackage "BlackBoxParameterSpaces"
     R = ZZ[x,y]
     I = ideal (x*y)
     bb = new BlackBoxIdeal from I
@@ -1548,7 +1548,7 @@ createSimpleInterpolator (BlackBoxParameterSpace) := BlackBoxInterpolator => (bl
 TEST /// 
     -- bug: a component name is used again after renaming.
     -- fix: always increase nextComponentId by one. 
-    -- loadPackage "BlackBoxIdeals"
+    -- loadPackage "BlackBoxParameterSpaces"
     errorDepth=2
     K = ZZ/11;
     R = K[x,y]
@@ -1567,7 +1567,7 @@ TEST ///
 
 TEST ///
     -- bug: jet length too short 
-    -- loadPackage "BlackBoxIdeals"
+    -- loadPackage "BlackBoxParameterSpaces"
     kk = ZZ
     R = kk[x,y]
     I  = ideal (x*y*(x^2-y^2)*(y^4-3*x-7))
@@ -1615,7 +1615,7 @@ TEST ///
 TEST ///
    -- test for bug where onComponentPrecision is not respected (a longer jet was used instead of a short one)
     -- restart
-    -- loadPackage "BlackBoxIdeals"
+    -- loadPackage "BlackBoxParameterSpaces"
  
     setRandomSeed(42); -- ensure reproducibility in test
     K = ZZ/7;
@@ -1649,7 +1649,7 @@ TEST ///
 
 TEST ///
     -- bug: jet length too short (incorrect jet length heuristic)
-    -- loadPackage "BlackBoxIdeals"
+    -- loadPackage "BlackBoxParameterSpaces"
     kk = QQ
     R = kk[x,y]
     I  = ideal (x*y*(x^2-y^2)*(y^4-3*x-7))

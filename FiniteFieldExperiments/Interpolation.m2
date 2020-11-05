@@ -1,5 +1,5 @@
 
---needsPackage"BlackBoxIdeals"
+--needsPackage"BlackBoxParameterSpaces"
 
 
 
