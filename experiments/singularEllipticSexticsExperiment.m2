@@ -5,10 +5,10 @@ quit -- F11 F11 F12
 
 path = append(path,"/Users/bothmer/Desktop/projekte/strudel/Jakob2010/GitHub/padicLiftM2/")
 
-uninstallPackage"BlackBoxIdeals"
-installPackage"BlackBoxIdeals"
-viewHelp BlackBoxIdeals
-check BlackBoxIdeals
+uninstallPackage"BlackBoxParameterSpaces"
+installPackage"BlackBoxParameterSpaces"
+viewHelp BlackBoxParameterSpaces
+check BlackBoxParameterSpaces
 
 
 
@@ -25,13 +25,13 @@ uninstallPackage"FiniteFieldExperiments"
 installPackage"FiniteFieldExperiments"
 check FiniteFieldExperiments
 
-viewHelp BlackBoxIdeals
+viewHelp BlackBoxParameterSpaces
 viewHelp FiniteFieldExperiments
 
 
 -- here the test case start
 restart
-needsPackage"BlackBoxIdeals"
+needsPackage"BlackBoxParameterSpaces"
 needsPackage"FiniteFieldExperiments"
 
 K = ZZ/3

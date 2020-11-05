@@ -1,10 +1,10 @@
 restart
 
---uninstallPackage "BlackBoxIdeals"
---installPackage "BlackBoxIdeals"
-loadPackage("BlackBoxIdeals",Reload=>true)
+--uninstallPackage "BlackBoxParameterSpaces"
+--installPackage "BlackBoxParameterSpaces"
+loadPackage("BlackBoxParameterSpaces",Reload=>true)
 
-check BlackBoxIdeals;
+check BlackBoxParameterSpaces;
 
 
 testRegisterPointProperty=()->
@@ -51,8 +51,8 @@ apply( sort keys bb, key->(key,dictionary key))
 3+3
 
 restart
-loadPackage "BlackBoxIdeals"
-loadPackage("BlackBoxIdeals",Reload=>true)
+loadPackage "BlackBoxParameterSpaces"
+loadPackage("BlackBoxParameterSpaces",Reload=>true)
 
     bbRankM = blackBoxIdeal( 5 ,ZZ )
     assert(bbRankM.numVariables==5);

@@ -2,7 +2,7 @@
 -- number of components of the same dimension?
 
 restart
-needsPackage"BlackBoxIdeals"
+needsPackage"BlackBoxParameterSpaces"
 needsPackage"FiniteFieldExperiments"
 
 K = ZZ/5

@@ -31,7 +31,7 @@ newPackage(
            HomePage => "http://www.crcg.de/wiki/Bothmer"}    
       },
      Configuration => {"gppath" =>  ""},
-    PackageExports => {"BlackBoxIdeals"},
+    PackageExports => {"BlackBoxParameterSpaces"},
      Headline => "p-adic lift package",
      DebuggingMode => true,
      AuxiliaryFiles=>true
@@ -40,15 +40,15 @@ newPackage(
 --  
 
 
-needsPackage "BlackBoxIdeals";
+needsPackage "BlackBoxParameterSpaces";
 needsPackage "SimpleDoc";
 needsPackage "Text";
 
 
 -- a hack to export the symbols of idealBlackBoxes for Macaulay 1.4.0.1, 
---try ( loadPackage( "BlackBoxIdeals",Reload=>true) )  then ( installPackage "BlackBoxIdeals"; ) else ( installPackage "BlackBoxIdeals";);
---try ( loadPackage( "BlackBoxIdeals",Reload=>true) ) then () else ();
---try ( load "BlackBoxIdeals.m2";  ) then ( installPackage BlackBoxIdeals; ) else ( installPackage BlackBoxIdeals;);
+--try ( loadPackage( "BlackBoxParameterSpaces",Reload=>true) )  then ( installPackage "BlackBoxParameterSpaces"; ) else ( installPackage "BlackBoxParameterSpaces";);
+--try ( loadPackage( "BlackBoxParameterSpaces",Reload=>true) ) then () else ();
+--try ( load "BlackBoxParameterSpaces.m2";  ) then ( installPackage BlackBoxParameterSpaces; ) else ( installPackage BlackBoxParameterSpaces;);
  
 
 export{

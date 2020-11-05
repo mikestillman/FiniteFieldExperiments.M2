@@ -8,10 +8,10 @@ uninstallPackage"IntervalPkg"
 installPackage"IntervalPkg"
 check IntervalPkg
 
-loadPackage"BlackBoxIdeals"
-uninstallPackage"BlackBoxIdeals"
-installPackage"BlackBoxIdeals"
-check BlackBoxIdeals
+loadPackage"BlackBoxParameterSpaces"
+uninstallPackage"BlackBoxParameterSpaces"
+installPackage"BlackBoxParameterSpaces"
+check BlackBoxParameterSpaces
 
 loadPackage"FiniteFieldExperiments"
 uninstallPackage"FiniteFieldExperiments"

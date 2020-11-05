@@ -6,7 +6,7 @@
 
 restart
 
-needsPackage"BlackBoxIdeals"
+needsPackage"BlackBoxParameterSpaces"
 needsPackage"FiniteFieldExperiments"
 
 K = ZZ/3
@@ -67,8 +67,8 @@ end
 ---
 
 restart
-uninstallPackage"BlackBoxIdeals"
-installPackage"BlackBoxIdeals"
+uninstallPackage"BlackBoxParameterSpaces"
+installPackage"BlackBoxParameterSpaces"
 uninstallPackage"FiniteFieldExperiments"
 installPackage"FiniteFieldExperiments"
 
@@ -208,7 +208,7 @@ tryProperty(eClosedBetti,i->(closedIsAclosedAt i,closedRankJacobiAt i))
 
 -- sysygies of three cubics
 restart
-needsPackage"BlackBoxIdeals"
+needsPackage"BlackBoxParameterSpaces"
 needsPackage"FiniteFieldExperiments"
 
 K = ZZ/3

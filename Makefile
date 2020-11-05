@@ -1,11 +1,11 @@
 
 
 
-.PHONY: installPadicLift installBlackBoxIdeals installFiniteFieldExperiments  uninstallPadicLift \
-        uninstallBlackBoxIdeals uninstallFiniteFieldExperiments installM2Logging uninstallM2Logging \
+.PHONY: installPadicLift installBlackBoxParameterSpaces installFiniteFieldExperiments  uninstallPadicLift \
+        uninstallBlackBoxParameterSpaces uninstallFiniteFieldExperiments installM2Logging uninstallM2Logging \
         install uninstall
  
-manualinstall: installPadicLift installBlackBoxIdeals installFiniteFieldExperiments installM2Logging
+manualinstall: installPadicLift installBlackBoxParameterSpaces installFiniteFieldExperiments installM2Logging
    
 
 installPadicLift:  
@@ -22,10 +22,10 @@ installM2Logging:
 	@echo  -e "#"'!'"/bin/bash \n rm  ~/.Macaulay2/local/share/Macaulay2/M2Logging.m2 " > ~/.Macaulay2/local/share/Macaulay2/M2LoggingUninstall.sh
 
 
-installBlackBoxIdeals: 
+installBlackBoxParameterSpaces: 
 	mkdir -p   ~/.Macaulay2/local/share/Macaulay2/
-	cp BlackBoxIdeals.m2 ~/.Macaulay2/local/share/Macaulay2/
-	@echo  -e "#"'!'"/bin/bash \n rm  ~/.Macaulay2/local/share/Macaulay2/BlackBoxIdeals.m2 " > ~/.Macaulay2/local/share/Macaulay2/BlackBoxIdealsUninstall.sh
+	cp BlackBoxParameterSpaces.m2 ~/.Macaulay2/local/share/Macaulay2/
+	@echo  -e "#"'!'"/bin/bash \n rm  ~/.Macaulay2/local/share/Macaulay2/BlackBoxParameterSpaces.m2 " > ~/.Macaulay2/local/share/Macaulay2/BlackBoxParameterSpacesUninstall.sh
 
 installFiniteFieldExperiments: 
 	mkdir -p   ~/.Macaulay2/local/share/Macaulay2/
@@ -43,19 +43,19 @@ uninstallM2Logger:
 	bash ~/.Macaulay2/local/share/Macaulay2/M2LoggerUninstall.sh
 
 
-uninstallBlackBoxIdeals:
-	bash ~/.Macaulay2/local/share/Macaulay2/BlackBoxIdealsUninstall.sh
+uninstallBlackBoxParameterSpaces:
+	bash ~/.Macaulay2/local/share/Macaulay2/BlackBoxParameterSpacesUninstall.sh
 
 uninstallFiniteFieldExperiments:
 	bash ~/.Macaulay2/local/share/Macaulay2/FiniteFieldExperimentsUninstall.sh
 
 
-manualuninstall: uninstallPadicLift uninstallBlackBoxIdeals uninstallFiniteFieldExperiments uninstallM2Logging
+manualuninstall: uninstallPadicLift uninstallBlackBoxParameterSpaces uninstallFiniteFieldExperiments uninstallM2Logging
 
 
 checkPadicLift: checkFFE
 	M2 --script testPadicLift.m2
-	
+
 checkFFE:
 	M2 --script testFFexperiments.m2
 

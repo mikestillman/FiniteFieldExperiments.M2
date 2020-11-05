@@ -6,7 +6,7 @@
 
 restart
 
-needsPackage"BlackBoxIdeals"
+needsPackage"BlackBoxParameterSpaces"
 needsPackage"FiniteFieldExperiments"
 
 K = ZZ/101
@@ -70,8 +70,8 @@ end
 ---
 
 restart
-uninstallPackage"BlackBoxIdeals"
-installPackage"BlackBoxIdeals"
+uninstallPackage"BlackBoxParameterSpaces"
+installPackage"BlackBoxParameterSpaces"
 uninstallPackage"FiniteFieldExperiments"
 installPackage"FiniteFieldExperiments"
 
@@ -165,7 +165,7 @@ e.tryProperty("isCertainlySingularAt")
 
 -- sysygies of three cubics
 restart
-needsPackage"BlackBoxIdeals"
+needsPackage"BlackBoxParameterSpaces"
 needsPackage"FiniteFieldExperiments"
 
 K = ZZ/3

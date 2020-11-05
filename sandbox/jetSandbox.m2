@@ -1,6 +1,6 @@
-uninstallPackage "BlackBoxIdeals"
-installPackage "BlackBoxIdeals"
---loadPackage "BlackBoxIdeals"
+uninstallPackage "BlackBoxParameterSpaces"
+installPackage "BlackBoxParameterSpaces"
+--loadPackage "BlackBoxParameterSpaces"
 
 
 

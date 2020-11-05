@@ -3,7 +3,7 @@
 
 
 restart
-needsPackage"BlackBoxIdeals"
+needsPackage"BlackBoxParameterSpaces"
 needsPackage"FiniteFieldExperiments"
 
 prime = 11

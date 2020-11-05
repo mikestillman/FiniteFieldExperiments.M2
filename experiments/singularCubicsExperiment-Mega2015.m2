@@ -2,7 +2,7 @@
 -- cubics
 
 restart
-needsPackage"BlackBoxIdeals"
+needsPackage"BlackBoxParameterSpaces"
 needsPackage"FiniteFieldExperiments"
 setRandomSeed "8943758347"
 

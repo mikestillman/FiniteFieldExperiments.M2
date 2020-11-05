@@ -6,8 +6,8 @@ quit -- F11 F11 F12
 restart
 path = append(path,"/Users/bothmer/Desktop/projekte/strudel/Jakob2010/GitHub/padicLiftM2/")
 
-loadPackage "BlackBoxIdeals"
-viewHelp BlackBoxIdeals
+loadPackage "BlackBoxParameterSpaces"
+viewHelp BlackBoxParameterSpaces
 loadPackage "FiniteFieldExperiments"
 viewHelp FiniteFieldExperiments
 

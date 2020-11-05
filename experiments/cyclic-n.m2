@@ -9,7 +9,7 @@
 -- 2) http://www-sop.inria.fr/saga/POL/BASE/2.multipol/cyclic.html
 
 restart
-loadPackage"BlackBoxIdeals"
+loadPackage"BlackBoxParameterSpaces"
 
 n = 8
 K = ZZ/11

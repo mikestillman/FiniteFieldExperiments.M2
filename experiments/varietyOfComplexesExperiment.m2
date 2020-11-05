@@ -103,7 +103,7 @@ bb.resetInterpolation()
 time bb.interpolateComponentsAt(smoothPoints,2)
 -- there seems to be a problem with deg=1 and empty interpolated ideals
 e.tryProperty("interpolatedComponentNamesAt")
-viewHelp BlackBoxIdeals
+viewHelp BlackBoxParameterSpaces
 
 
 e = new Experiment from bb

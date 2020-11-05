@@ -3,12 +3,12 @@
 
 exit -- F11 F12 F11 
 restart
-uninstallPackage"BlackBoxIdeals"
+uninstallPackage"BlackBoxParameterSpaces"
 path = append(path,"/Users/bothmer/Desktop/projekte/strudel/Jakob2010/GitHub/padicLiftM2/")
-time installPackage"BlackBoxIdeals"
-viewHelp "BlackBoxIdeals"
+time installPackage"BlackBoxParameterSpaces"
+viewHelp "BlackBoxParameterSpaces"
 
-check BlackBoxIdeals
+check BlackBoxParameterSpaces
 
 
 
@@ -20,21 +20,21 @@ uninstallPackage"IntervalPkg"
 installPackage"IntervalPkg"
 check IntervalPkg
 
-uninstallPackage"BlackBoxIdeals"
-installPackage"BlackBoxIdeals"
-check BlackBoxIdeals
+uninstallPackage"BlackBoxParameterSpaces"
+installPackage"BlackBoxParameterSpaces"
+check BlackBoxParameterSpaces
 
 uninstallPackage"FiniteFieldExperiments"
 time installPackage"FiniteFieldExperiments"
 time check FiniteFieldExperiments
 
-viewHelp BlackBoxIdeals
+viewHelp BlackBoxParameterSpaces
 viewHelp FiniteFieldExperiments
 
 
 -- here the test case start
 restart
-needsPackage"BlackBoxIdeals"
+needsPackage"BlackBoxParameterSpaces"
 needsPackage"FiniteFieldExperiments"
 
 K = ZZ/7

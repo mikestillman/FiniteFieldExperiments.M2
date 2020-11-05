@@ -11,21 +11,21 @@ uninstallPackage"IntervalPkg"
 installPackage"IntervalPkg"
 check IntervalPkg
 
-uninstallPackage"BlackBoxIdeals"
-installPackage"BlackBoxIdeals"
-check BlackBoxIdeals
+uninstallPackage"BlackBoxParameterSpaces"
+installPackage"BlackBoxParameterSpaces"
+check BlackBoxParameterSpaces
 
 uninstallPackage"FiniteFieldExperiments"
 installPackage"FiniteFieldExperiments"
 check FiniteFieldExperiments
 
-viewHelp BlackBoxIdeals
+viewHelp BlackBoxParameterSpaces
 viewHelp FiniteFieldExperiments
 
 
 -- here the test case start
 restart
-needsPackage"BlackBoxIdeals"
+needsPackage"BlackBoxParameterSpaces"
 needsPackage"FiniteFieldExperiments"
 
 K = ZZ/3

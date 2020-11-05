@@ -1,5 +1,5 @@
 
-         debug BlackBoxIdeals
+         debug BlackBoxParameterSpaces
     idealBlackBoxesProtect()
 
 break
@@ -12,12 +12,12 @@ installPackage "FiniteFieldExperiments"
   break
   restart 
  errorDepth =2
-  loadPackage "BlackBoxIdeals"
-  check "BlackBoxIdeals"
-  uninstallPackage "BlackBoxIdeals"
-  installPackage "BlackBoxIdeals"
-  viewHelp BlackBoxIdeals
-  debug BlackBoxIdeals
+  loadPackage "BlackBoxParameterSpaces"
+  check "BlackBoxParameterSpaces"
+  uninstallPackage "BlackBoxParameterSpaces"
+  installPackage "BlackBoxParameterSpaces"
+  viewHelp BlackBoxParameterSpaces
+  debug BlackBoxParameterSpaces
   targetJetLength:= 10;
   viewHelp FiniteFieldExperiments
 
@@ -39,12 +39,12 @@ assert(ideal bb.interpolateComponentAt(pointOnPlane, 1) == ideal z)
    break
   restart 
  errorDepth =2
-  loadPackage "BlackBoxIdeals"
---  check "BlackBoxIdeals"
---  uninstallPackage "BlackBoxIdeals"
---  installPackage "BlackBoxIdeals"
---  viewHelp BlackBoxIdeals
---  debug BlackBoxIdeals
+  loadPackage "BlackBoxParameterSpaces"
+--  check "BlackBoxParameterSpaces"
+--  uninstallPackage "BlackBoxParameterSpaces"
+--  installPackage "BlackBoxParameterSpaces"
+--  viewHelp BlackBoxParameterSpaces
+--  debug BlackBoxParameterSpaces
   -- to get meaningful debug output for packages,
   -- we need errorDepth = 2. (default value is 3) => Lower value means better 
   errorDepth = 2

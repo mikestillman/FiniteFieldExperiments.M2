@@ -1,7 +1,7 @@
 -- test projection of a rational normal curve
 
 restart
-needsPackage"BlackBoxIdeals"
+needsPackage"BlackBoxParameterSpaces"
 needsPackage"FiniteFieldExperiments"
 
 prime = 11
@@ -48,7 +48,7 @@ assert (interpolProjI == sub(projI,matrix{{a,b,c,0}}))
 
 -- two rational normal curves
 restart
-needsPackage"BlackBoxIdeals"
+needsPackage"BlackBoxParameterSpaces"
 needsPackage"FiniteFieldExperiments"
 
 prime = 11

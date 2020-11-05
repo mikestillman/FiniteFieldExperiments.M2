@@ -12,21 +12,21 @@ uninstallPackage"IntervalPkg"
 installPackage("IntervalPkg",UserMode =>true)
 check (IntervalPkg,UserMode =>true)
 
-uninstallPackage"BlackBoxIdeals"
-installPackage("BlackBoxIdeals",UserMode =>true)
-check (BlackBoxIdeals,UserMode =>true)
+uninstallPackage"BlackBoxParameterSpaces"
+installPackage("BlackBoxParameterSpaces",UserMode =>true)
+check (BlackBoxParameterSpaces,UserMode =>true)
 
 uninstallPackage"FiniteFieldExperiments"
 installPackage("FiniteFieldExperiments",UserMode =>true)
 check (FiniteFieldExperiments,UserMode =>true)
 
---viewHelp BlackBoxIdeals
+--viewHelp BlackBoxParameterSpaces
 --viewHelp FiniteFieldExperiments
 
 
 -- here the test case start
 restart
-needsPackage"BlackBoxIdeals"
+needsPackage"BlackBoxParameterSpaces"
 needsPackage"FiniteFieldExperiments"
 
 K = ZZ/5
