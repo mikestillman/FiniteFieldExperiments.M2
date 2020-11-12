@@ -1,0 +1,628 @@
+\documentclass[12pt,a4paper]{amsart}       
+\usepackage{german,amsmath,amssymb,latexsym,amsfonts}   
+\usepackage{graphicx}              %                
+\usepackage{enumerate}
+%\setlength{\topmargin}{-1cm} 
+%\setlength{\textheight}{23.5cm} 
+%\setlength{\textwidth}{20cm}
+%\setlength{\evensidemargin}{-4mm}  
+%\setlength{\oddsidemargin}{-4mm}  
+
+%\setlength{\mathsurround}{2pt}
+%\setlength{\parindent}{0mm}
+%\setlength{\parskip}{3mm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% for M2 code %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% use this verbatim like environment to insert Macaulay2 code.
+%% Another program can replace this block with it execution
+\usepackage{fancyvrb}
+
+\newenvironment{m2}
+  {
+    % First, we tell fancyvrb that we're inside a verbatim environment.
+    \tiny
+    \VerbatimEnvironment
+    \begin{Verbatim}[frame=single]%
+  }
+  {\end{Verbatim}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[left=1.5in,top=1in,right=1.5in,bottom=1in]{geometry}
+
+\usepackage{graphicx}
+\usepackage{color}
+
+\usepackage[all]{xy}
+
+ \renewcommand{\thesubsection}{\thesection.\alph{subsection}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem*{expectation}{Expectation}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{problem}[theorem]{Problem}
+
+
+% Separate numbering for Theorem statements in the introduction
+\newtheorem{theoremintro}{Theorem}
+\newcommand{\theHtheoremintro}{\Alph{theoremintro}}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+
+%\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+
+\newcommand{\residue}{\partial}
+\newcommand{\divisor}{\mathrm{div}}
+\newcommand{\Brtwo}{{}_2\mathrm{Br}}
+\newcommand{\Pictwo}{{}_2\mathrm{Pic}}
+
+\newcommand{\isom}{\cong}
+\newcommand{\isomto}{\simto}
+\newcommand{\isometry}{\cong}
+
+\newcommand{\FF}{\mathbb F}
+\newcommand{\ZZ}{\mathbb Z}
+\renewcommand{\AA}{\mathbb A}
+\newcommand{\CC}{\mathbb C}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\QQ}{\mathbb Q}
+\newcommand{\Gm}{\mathbb{G}_{\mathrm{m}}}
+%\newcommand{\T}{\mathbb{T}}
+
+\DeclareMathOperator{\AAut}{\mathbf{Aut}}
+\DeclareMathOperator{\Aut}{\mathrm{Aut}}
+\DeclareMathOperator{\Br}{\mathrm{Br}}
+\DeclareMathOperator{\Isom}{\mathrm{Isom}}
+\DeclareMathOperator{\IIsom}{\Group{Isom}}
+\DeclareMathOperator{\PPic}{\sheaf{P}\!\mathit{ic}}
+\DeclareMathOperator{\Pic}{\mathrm{Pic}}
+\DeclareMathOperator{\rk}{\mathrm{rk}}
+\DeclareMathOperator{\SSpec}{\mathbf{Spec}}
+\DeclareMathOperator{\Spec}{\mathrm{Spec}}
+\DeclareMathOperator{\EExt}{\sheaf{E}\!\mathit{xt}}
+\DeclareMathOperator{\Ext}{\mathrm{Ext}}
+\DeclareMathOperator{\coker}{\mathrm{coker}}
+\DeclareMathOperator{\Mor}{Mor}
+\DeclareMathOperator{\codim}{codim}
+%\DeclareMathOperator{\log}{log}
+
+\newcommand{\inv}{^{-1}}
+\newcommand{\sep}{^{\mathrm{s}}}
+\newcommand{\mult}{^{\times}}
+\newcommand{\dual}{^{\vee}}
+\newcommand{\tensor}{\otimes}
+\newcommand{\bslash}{\smallsetminus}
+\newcommand{\mapto}[1]{\xrightarrow{#1}}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\wt}[1]{\widetilde{#1}}
+\newcommand{\et}{\mathrm{\acute{e}t}}
+
+\newcommand{\linedef}[1]{\textsl{#1}}
+\newcommand{\Het}{H_{\et}}
+\newcommand{\ur}{\mathrm{nr}}
+%\newcommand{\ur}{\mathrm{ur}}
+\newcommand{\Hur}{H_{\ur}}
+\newcommand{\merk}{\mathrm{r}}
+\newcommand{\Hr}{H_{\merk}}
+\newcommand{\Pfister}[1]{\ll\!{#1}\gg}
+\newcommand{\quadform}[1]{<\! #1 \!>}
+\newcommand{\Local}{\mathsf{Local}}
+\newcommand{\Ab}{\mathsf{Ab}}
+\newcommand{\Var}{\mathsf{Var}}
+\newcommand{\Frac}{\mathrm{Frac}}
+\newcommand{\im}{\mathrm{im}}
+\newcommand{\CH}{\mathrm{CH}}
+\newcommand{\CM}{\mathsf{CM}}
+\newcommand{\res}{\mathrm{res}}
+\newcommand{\cores}{\mathrm{cor}}
+\newcommand{\ord}{\mathrm{ord}}
+\newcommand{\Norm}{\mathrm{N}}
+\newcommand{\vp}{\varphi}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand\WHY{{\color{red}\textsf{WHY?}}~}
+
+%\renewcommand{\labelenumi}{\it\alph{enumi})}
+\renewcommand\theenumi{\it\alph{enumi}}
+\renewcommand\labelenumi{\theenumi)}
+
+\usepackage[backref=page]{hyperref}
+
+
+
+\begin{document}
+
+\title{Finite Field Experiments}
+
+\author{Jakob Kr\"oker}
+\author{Mike Stillmann}
+\author{Hans-Christian v.\,Bothmer}
+
+\maketitle
+
+\section{introduction}
+
+This article describes the packages {\tt BlackBoxParameterSpaces} {\color{red} (rename Package)} and
+ {\tt FiniteFieldExperiments} that are mostly used together, but the first one can also be used alone for some applications.
+
+The purpose of these packages is to study moduli spaces or more generally parameter spaces $X$ together with their universal families. This study comes in two flavours:
+
+\begin{enumerate}[(a)]
+\item The first situation is one, in which one has a unirational parametrisation 
+\[
+	\phi \colon \AA^n \to X
+\]
+of some parameter space. In this situation one is often interested in the stratification of $X$ by some property of the parametrised objects. Our running example for this type of question is the stratification of the space of cubic surfaces in $\PP^3$ by singularity type. Here $X$ is represented by a {\tt BlackBoxParameterSpace}.
+
+\item In the second situation $X$ is given as a subvariety of some larger unirational moduli space
+\[
+	X \subset \AA^n.
+\]
+Here one is interested in the components of $X$ and their moduli interpretation. Our running example in this case is the variety of complexes. Here $X$ is represented by a {\tt BlackBoxIdeal}.
+\end{enumerate}
+
+In both cases the study of $X$ is done over a finite field by looking at a large number of random points in $\AA^n$. Since we are over a finite field, we have some non zero chance of finding points in interesting strata (in the first case) or on interesting components (in the second case). Moreover the statistics of such a finite field experiment contain non trivial heuristic information about the stratification (in the first case) or the irreducible components of $X$ (in the second case). The interesting points and the statistical information generated are collected in an object of type {\tt FiniteFieldExperiment}.
+
+In our implementation the package {\tt BlackBoxParameterSpaces} contains the tools to set up a parameter space $X$ as above together with its universal family, so that it can be used in a finite field experiment. It also provides some black-box-algorithms that still work if instead of the equations of $X \subset \AA^n$ only an algorithm to evaluate the equations is given. To explain the difference between an equation and an evaluation algorithm we look at the example of determinants.
+
+The package {\tt FiniteFieldExperiments} contains the tools to run a finite field experiment, collect the results and interpret the statistical information gathered. 
+
+People familiar with the idea of finite field experiments will notice that a specialised package for this type of study is not strictly necessary. The advantage of our implementation to such people is:
+\begin{enumerate}[(a)]
+\item The automatic bookkeeping during a finite field experiment: The algorithms provided will use heuristic methods to store interesting points while forgetting uninteresting ones. At the same time they will collect the stochastic information generated by the experiment. 
+\item The possibility of continuing an experiment: If an experiment is run with a few points first, and then with increasingly more points, the algorithms will collect and combine the information found in all runs. 
+\item The black-box-Algorithms 
+\end{enumerate}
+For novices, the structured way of setting up a finite field experiment with this package, in particular the {\tt xxxAt}-notation seems to help to get into the philosophy of this type of study. 
+
+\
+
+{\color{red} (put references to Frank and Tonoli here)}
+
+\
+
+
+\begin{m2}
+  needsPackage "BlackBoxParameterSpaces"
+  needsPackage "FiniteFieldExperiments"
+  kk = ZZ/7
+\end{m2}
+
+\begin{m2}
+  S = kk[a..d]
+  f = () -> (
+    3 + 4
+    )
+\end{m2}
+
+%%%%%%%%%%%%%%%%%%%%%
+\section{Black-Box-Parameter spaces}
+%%%%%%%%%%%%%%%%%%%%%
+\label{sBlackBoxParameterSpace}
+
+A {\tt BlackBoxParameterSpace} represents an unirational parameter space
+\[
+	\AA^n \to X
+\]
+together with its universal family. While the parameter space $\AA^n$ itself is trivial, the interesting information lies in the objects that are parametrized by this space. In this package these objects and their properties are modelled by {\tt pointProperties}. Any function that depends only on the coordinates of a point $P \in \AA^n$ can be a point property. Points are modelled by row vectors over a field, while 
+point properties are functions that take a matrix as input and can have any type as output. We use the convention that the name of a point property is of the form {\tt xxxAt}, because it computes a property of the parametrised object {\sl at} a given point. Point properties need to be registered in a {\tt BlackBoxParameter} space if one wants to use them later in a {\tt FiniteFieldExperiment}. 
+
+\begin{itemize}
+\item {\tt blackBoxParameterSpace} - make a new {\tt BlackBoxParameterSpace}
+\item {\tt registerPointProperty} or {\tt rpp} - register a new {\tt pointProperty}
+\item {\tt updatePointProperty} or {\tt upp} - change an existing {\tt pointProperty}
+\item {\tt pointProperties} - list the pointProperties of a black box
+\item {\tt hasPointPropery} - check whether a point property is defined
+\end{itemize}
+
+As a running example we study the stratification of the space of cubic surfaces by singularity type. 
+
+First we load the package and set the random seed, so that we always get the same results in this example:
+
+\begin{m2}
+  restart
+  needsPackage"BlackBoxParameterSpaces"
+  setRandomSeed "8943758347"
+\end{m2}
+
+
+We work in characteristic $7$:
+
+\begin{m2}
+  K = ZZ/7
+\end{m2}
+
+
+The coordinate Ring of $\PP^3$:
+
+\begin{m2}
+  R = K[x,y,z,w]
+\end{m2}
+
+
+Let's now make a {\tt BlackBoxParameterSpace} describing the parameter space of homogenous cubic polynomials in $4$ variables. Since there are $20$ degree $3$ monomials in the coordinate ring on $\PP^3$ this parameter space is $\AA^{20}$: 
+
+\begin{m2}
+  bbC = blackBoxParameterSpace(20,K);
+\end{m2}
+
+
+So far this black box is still empty
+
+\begin{m2}
+  bbC.pointProperties()
+\end{m2}
+
+We use the $20$ monomials of degree $3$ to make a cubic polynomial from a $1 \times 20$ matrix of coefficients:
+
+\begin{m2} 
+  mons3 = super basis(3,R)
+  cubicAt = (point) -> matrix entries (point*transpose mons3)
+\end{m2}
+
+As an example we look at the vector of coefficients that defines the Fermat-cubic:
+
+\begin{m2}
+  fermatPoint = matrix {{1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1_K}}
+  cubicAt(fermatPoint)
+\end{m2}
+
+
+
+
+We now register this function in the back box, so we can later use it in a 
+{\tt FiniteFieldExperiment}.
+
+\begin{m2}
+  bbC = bbC.registerPointProperty("cubicAt",cubicAt);
+\end{m2}
+
+Now the black box is not empty anymore, but contains a point property that gives a cubic polynomial
+corresponding to a point in $\AA^2$. 
+
+\begin{m2}
+  bbC.pointProperties()
+\end{m2}
+
+We now want to stratify this parameter space by singularity type. For this we need to compute the singular locus of the cubic surface at each point of $\AA^2$.
+
+\begin{m2}
+singularLocusAt = (point) -> ideal jacobian cubicAt(point)
+\end{m2}
+
+As an example we can check that the Fermat-cubic is smooth
+
+\begin{m2}
+codim singularLocusAt(fermatPoint)
+\end{m2}
+
+For a singular example we look at the Cayley-cubic. It hat four $A_1$ singularities:
+
+\begin{m2}
+cayleyPoint = matrix {{3,-3,-3,-3,-3,1,1,-3,1,-3,3,-3,-3,-3,1,-3,3,-3,-3,3_K}}
+codim singularLocusAt(cayleyPoint)
+degree singularLocusAt(cayleyPoint)
+\end{m2}
+
+We also register this {\tt pointProperty} in the black box:
+
+\begin{m2}
+bbC = bbC.registerPointProperty("singularLocusAt",singularLocusAt);
+bbC.pointProperties()
+\end{m2}
+
+As a first approximation to the stratification of the space of cubic surfaces by
+singularity type we look at the degree of the singular locus. Here we must treat
+the case of $0$ or infinitely many singular points separately.
+
+\begin{m2}
+degreeSingularLocusAt = (point) -> (
+     s := singularLocusAt(point);
+     if dim s == 0 then return 0;
+     if dim s == 1 then return degree s;
+     if dim s >= 2 then return infinity
+     -- these are affine dimensions
+     )
+\end{m2}
+
+Indeed this gives the correct answers for our examples>
+
+\begin{m2}
+degreeSingularLocusAt(fermatPoint)
+degreeSingularLocusAt(cayleyPoint)
+\end{m2}
+
+Again we register this {\tt pointPropery}
+
+\begin{m2}
+bbC = bbC.registerPointProperty("degreeSingularLocusAt",degreeSingularLocusAt);
+bbC.pointProperties()
+\end{m2}
+
+Now we are set to start a {\tt FiniteFieldExperiment} to study the stratification of
+the space of cubic surfaces by the degree of the singular locus.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Finite field experiments with a Black-Box-Parameter space}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In a {\tt FiniteFieldExperiment} we take a {\tt BlackBoxParameterSpace} and evaluate some of its {\tt pointProperties} at a large number of random points. If we work over a finite field, we will find points on interesting strata with a small but positive probability. Furthermore the number of points found in each stratum gives heuristic information about the codimension of each stratum.
+
+Let's first explain the heuristic reasoning used in this package. Let's assume we work over a finite field $\FF_q$ with $q$ elements. If $f \in \FF_q[x_1,\dots,x_n]$ is a polynomial, and $x \in \AA^n$ is a point, then
+\[
+	f(x) \in \FF_q
+\]
+For most polynomials each of the $q$ possible values of $f(P)$ occurs with approximately the same probability. Therefore 
+\[
+	f(x) = 0
+\]
+occurs with probability about $1/q$, so we expect about $q^{n-1}$ points on a hypersurface in $\AA^n$, and this value does not depend on the degree of the hypersurface. A much more sophisticated analysis of the situation is described by the Weil-Conjectures 
+
+\
+
+{\color{red} put some version of the Weil-Conjecture here.}
+
+\
+
+So if $Y \subset \AA^n$ is an irreduible component of a stratum, then  in a first order approximation we have
+\[
+	|Y(\FF_q) | \approx q^{\dim Y}.
+\]
+If choose random points $x \in \AA^n$ with equal distribution, then the probability that such a point lies on $Y$ is approximately
+\[
+	P(Y) = \frac{|Y(\FF_q)|}{q^n} \approx q^{\dim Y - n} = q^{-\codim Y}.
+\]
+Taking logarithms we get
+\[
+	- \log_q P(Y) \approx \codim Y.
+\]
+
+\begin{itemize}
+\item {\tt new FiniteFieldExperiment from BlackBoxParameterSpace}
+\item {\tt watchProperty} - select a {\tt pointProperty} from the Black box to be evaluated at random points
+\item {\tt watchedProperites} - a list of currently evaluated point properties
+\item {\tt run} - evaluate the watched properties at an additional number of points
+\item {\tt trials} - the number of point evaluated so far
+\item {\tt counts} - the number of points found on each stratum
+\item {\tt estimatedCodimension} - estimate the codimension of each stratum using the heuristic explained above
+\item {\tt pointsByKey} - a list of points on a given stratum. 
+\item {\tt tryProperty} -  evaluate a new point property on the points found so far.
+\item {\tt clear} - erase all points and statistics.
+\item {\color{red} possibly:} {\tt load} and {\tt save}.
+\end{itemize}
+
+Returning to the cubic surfaces of the preceding section we set up a finite field experiment:
+
+\begin{m2}
+e = new Experiment from bbC;
+\end{m2}
+
+So far the experiment is set up to observe nothing:
+
+\begin{m2}
+e.watchedProperties()
+\end{m2}
+
+For our stratification we are interested in the degree of the singular locus. So
+let's evaluate this {\tt pointProperty} in the experiment:
+
+\begin{m2}
+e.watchProperty("degreeSingularLocusAt")
+e.watchedProperties()
+\end{me}
+
+Let's look at 100 random cubics:
+
+\begin{m2}
+e.run(100)
+\end{m2}
+
+Let's look at some more:
+
+\begin{m2}
+e.run(3000)
+\end{m2}
+
+What does this mean? Let's try to estimate the codimension of the found strata
+by the heuristic above,
+
+\begin{m2}
+e.estimateStratification()
+\end{m2}
+
+We interpret these numbers as follows:
+
+\begin{itemize}
+\item The locus $Y_0$ of smooth cubics has codim 0, i.e. the generic cubic is smooth.
+\item The locus $Y_1$ of singular cubics has codim 1.
+\item The locus $Y_2$ of cubics with a singular locus of degree 2
+looks strange, it has estimated codimension between 1 and 2. 
+\end{itemize}
+The reason for the strange measurement in degree $2$ might be, 
+that $Y_2$ has several components. In this case
+probability of finding points on this stratum would be
+\[
+	P(Y_2) \approx \frac{r}{7^c}
+\]
+with $c$ the codimension and $r$ the number of components. Taking logarithms gives
+\[
+	\log_7(p) = c-\log_7(r)
+\]
+so the estimated codimension of the degree 2 locus would be off by
+
+\
+
+\begin{center}
+\begin{tabular}{l|l}
+$r$ & $\log_7(r)$ \\
+\hline
+1& 0 \\
+2 & 0.35 \\
+3 & 0.56 \\
+4 & 0.71
+\end{tabular}
+\end{center}
+
+\
+
+Using this table we guess that $Y_2$ has two components  of codimension $2$
+and $Y_3$ has three components of codimension $3$. 
+
+At this stage of a finite field experiment
+one has to think again about the geometry of the problem. What could be the geometric reason for $Y_2$ to have two components?
+
+For our convenience the {\tt FiniteFieldExperiment} has collected some points on each stratum:
+
+\begin{m2}
+e.collectedCount()
+e.pointLists()
+\end{m2}
+
+We take the first point on the degree 2 stratum and look at its singular locus im more detail
+
+\begin{m2}
+testPoint = (e.pointLists())#{2}#0
+decompose singularLocusAt(testPoint)
+\end{m2}
+
+Possibly the cubics with a double point as singular locus
+form a component separate from those with 2 reduced points
+(without the data from the experiment, one could be 
+tempted to think, that the ones with double points
+are specializations of those with two reduced points).
+To check wether this is indeed the case we define a
+new {\tt pointPropery} that computes the multiplicity structure of 
+the singular locus
+
+\begin{m2}
+multiplicitiesSingularLocusAt = (point) -> (
+     sing := singularLocusAt(point);
+     d := degreeSingularLocusAt(point);
+     if d == 0 then return {};
+     if d == infinity then return {infinity};
+     pSing := primaryDecomposition(sing);
+     sort flatten apply(pSing,i->(
+	       if dim i == 0 then return {};
+	       r := degree radical i;
+	       d := degree i;
+	       apply(r,j->d//r)
+	       ))
+     )
+\end{m2}
+
+Four our example points we get the expected answers:
+
+\begin{m2}
+multiplicitiesSingularLocusAt(fermatPoint)
+multiplicitiesSingularLocusAt(cayleyPoint)
+multiplicitiesSingularLocusAt(testPoint)
+\end{m2}
+
+We register this property:
+
+\begin{m2}
+bbC = bbC.registerPointProperty("multiplicitiesSingularLocusAt",multiplicitiesSingularLocusAt);
+bbC.pointProperties()
+\end{m2}
+
+Now we try out our new {\tt pointProperty} on the collected points to see if it has
+the potential to distinguish the two components of $Y_2$:
+
+\begin{m2}
+e.collectedCount()
+e.tryProperty("multiplicitiesSingularLocusAt")
+\end{m2}
+
+Indeed in degree 2 this property divides the collected points in 2 
+sets of roughly equal size. This seems promising, so we run our
+experiment again, but this time we observe the multiplicity structure
+of the singular locus. 
+
+First we have to erase all statistics collected so far
+
+\begin{m2}
+e.clear() 
+e.collectedCount()
+e.trials()
+\end{m2}
+
+Now we tell the experiment to compute the multiplicity structure of the singular locus 
+at the random points.
+
+\begin{m2}
+e.watchedProperties()
+e.watchProperty("multiplicitiesSingularLocusAt")
+e.watchedProperties()
+\end{m2}
+
+Now evaluate the {\tt pointProperties} at $1000$ random points:
+
+\begin{m2}
+time e.run(1000)
+\end{m2}
+
+How does the stratification look like?
+
+\begin{m2}
+e.estimateStratification()
+\end{m2}
+
+The package only estimates the codimension of strata 
+with enough points, so lets do more points:
+
+\begin{m2}
+time e.run(10000)    
+e.estimateStratification()    
+\end{m2} 
+% this uses 94.8239 seconds
+
+Indeed we find that the multiplicity structure
+seems to separate the components in codim 2 and 3
+as we hoped for.
+
+If we would continue looking at more points we would find
+that there seem to be two components with multiplicity structure $\{4\}$. 
+These belong to singularities of type $A_4$ and $D_4$. 
+The complete story about singularities of cubic surfaces is very beautyful
+and can be found in Dolgachevs book {\color{red} (find reference)}
+
+
+
+%%%%%%%%%%%%%%%
+\section{Handling Errors}
+%%%%%%%%%%%%%%%
+
+
+Most computer algebra code works only over a Zariski-open set of possible input data. For example the algorithm to invert a square matrix over a field works only if the determinant of the matrix is not equal to $0$. If the code is a little more complicated it might be quite difficult to give the exact conditions under which the code will work. 
+
+In a finite field experiment this aquires a particular significance since over a finite field even points in high codimension strata a found with positive probability. So if we run a finite field experiment with
+some basically correct code that fails only on a high codimension set of input data, the experiment will still crash frequently. The {\tt FiniteFieldExperiment} package therefore uses the {\tt try} command of Macaulay2 to catch these errors and counts them like everything else.
+
+As an (artificial) example let's look a the parameter space of $4 \times 4$ matrices and 
+the top left entry of the inverse of such a matrix. 
+
+{\color{red} example}
+
+Sometimes (as here) the question asked makes only sense on an open subset of the parameter space. In this case one can use the throw/catch mechanism to obtain reasonable statistics. 
+
+{\color{red} throw/catch}
+
+Notice that the error message of {\tt MinvAt} is passed through {\tt entryAt} without problem and without any special code inside {\tt entryAt}.
+
+A fun application of this is the testing of code that can be run over a finite field. Make a point property out of the code to be tested and run a finite field experiment. One then gets the stratification of the input space by error code and also examples of input that crashes the given code ('Vogon Poety').
+In particular this uncovers high codimension errors that would be only very difficult to detect via random testing in chacateristic $0$. 
+
+{\color{red} test some M2 functionality}
+\end{document}
