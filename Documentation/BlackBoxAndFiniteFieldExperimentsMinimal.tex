@@ -595,8 +595,8 @@ as we hoped for.
 If we would continue looking at more points we would find
 that there seem to be two components with multiplicity structure $\{4\}$. 
 These belong to singularities of type $A_4$ and $D_4$. 
-The complete story about singularities of cubic surfaces is very beautyful
-and can be found in Dolgachevs book {\color{red} (find reference)}
+The complete story about singularities of cubic surfaces is very beautiful
+and can be found in Dolgachev's book {\color{red} (find reference)}
 
 
 
@@ -611,18 +611,133 @@ In a finite field experiment this aquires a particular significance since over a
 some basically correct code that fails only on a high codimension set of input data, the experiment will still crash frequently. The {\tt FiniteFieldExperiment} package therefore uses the {\tt try} command of Macaulay2 to catch these errors and counts them like everything else.
 
 As an (artificial) example let's look a the parameter space of $4 \times 4$ matrices and 
-the top left entry of the inverse of such a matrix. 
+the rank of the inverse of such a matrix. 
 
-{\color{red} example}
+We work in characteristic 7
 
-Sometimes (as here) the question asked makes only sense on an open subset of the parameter space. In this case one can use the throw/catch mechanism to obtain reasonable statistics. 
+\begin{m2}
+needsPackage "FiniteFieldExperiments"
+K = ZZ/7
+\end{m2}
 
-{\color{red} throw/catch}
+First we define the $\AA^{16}$ that parametrises the space of $4 \times 4$ matrices:
+
+\begin{m2}
+bb = blackBoxParameterSpace(16,K);
+\end{m2}
+
+For testing purposes we also choose a random point
+\begin{m2}
+testPoint = random(K^1,K^16)
+\end{m2}
+
+Now we define for each point in $\AA^{16}$ a $4 \times 4$ matrix $M$  ('M at'):
+
+\begin{m2}
+Mat = point -> point_{0..3}||point_{4..7}||point_{8..11}||point_{12..15}
+bb.rpp("Mat",Mat);
+Mat(testPoint)
+\end{m2}
+
+For each such point we also define the inverse matrix  ('M inverse at')
+
+\begin{m2}
+MinvAt = point -> (
+    (Mat(point))^-1
+    )
+bb.rpp("MinvAt",MinvAt);
+MinvAt(testPoint)
+\end{m2}
+
+Now we compute the rank of the inverse matrix
+
+\begin{m2}
+rankInvAt = point -> rank (MinvAt(point))
+bb.rpp("rankInvAt",rankInvAt);
+rankInvAt(testPoint)
+\end{m2}
+
+With this (very artificial) parameter space we set up an experiment:
+
+\begin{m2}
+e = new Experiment from bb
+\end{m2}
+
+We want to observe the rank of the inverse matrix
+
+\begin{m2}
+e.watchProperty("rankInvAt")
+\end{m2}
+
+Let's run the experiment on $100$ points
+
+\begin{m2}
+e.run(100);
+e.collectedCount()
+\end{m2}
+
+Notice that the experiment did not crash but dutifully counted the
+number of times an error occured. It even saved some points causing
+an error for closer inspection. We select the fist of these:
+
+\begin{m2}
+errorPoint = ((e.pointLists())#{Error})#0
+\end{m2}
+
+We run try our {\tt pointProperties} with this offending point, to see where the problem lies:
+
+\begin{m2} 
+try Mat(errorPoint)
+\end{m2}
+
+This works fine, so let's try the next {\tt pointProperty}
+
+\begin{m2}
+try MinvAt(errorPoint)
+\end{m2}
+
+So  here something strange happens. Indeed the problem is, that the determinant of $M$ is zero:
+
+\begin{m2}
+det Mat(errorPoint)
+\end{m2}
+
+Sometimes (as here) the question asked makes only sense on an open subset of the parameter space. In this case one can use the throw/catch mechanism to get more useful statistics. 
+
+We change {\tt MinvAt} such that it throws a readable error message if the determinant of
+$M$ is zero. The inverse is only computed when the determinant is non zero:
+
+\begin{m2}
+MinvAt = point -> (
+    M := Mat(point);
+    if det M == 0 then throw "Det = 0";
+    M^-1
+    )
+\end{m2}    
+Update to the new version of {\tt MinvAt}
+
+\begin{m2}
+bb.upp("MinvAt",MinvAt);
+\end{m2}
+
+We can now use {\tt catch} to see the error message if there is one
+
+\begin{m2}
+catch MinvAt(testPoint)
+catch MinvAt(errorPoint)
+\end{m2}
+
+Let"s now run the experiment again with this updated version of {\tt MinvAt}
+
+\begin{m2}
+e.clear()
+e.run(100)
+\end{m2}
 
 Notice that the error message of {\tt MinvAt} is passed through {\tt entryAt} without problem and without any special code inside {\tt entryAt}.
 
-A fun application of this is the testing of code that can be run over a finite field. Make a point property out of the code to be tested and run a finite field experiment. One then gets the stratification of the input space by error code and also examples of input that crashes the given code ('Vogon Poety').
-In particular this uncovers high codimension errors that would be only very difficult to detect via random testing in chacateristic $0$. 
+A fun application of this is the testing of code. Make a point property out of the code to be tested and run a finite field experiment. One then gets the stratification of the input space by error code and also examples of input that crashes the given code ('Vogon Poetry').
+In particular this uncovers high codimension errors that would be only very difficult to detect via classic testing. 
 
 {\color{red} test some M2 functionality}
 \end{document}
