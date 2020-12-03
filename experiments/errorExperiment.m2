@@ -33,7 +33,7 @@ e = new Experiment from bb
 -- observe the rank of the inverse matrix
 e.watchProperty("rankInvAt")
 
-e.run(100);
+e.run(100)
 e.collectedCount()
 
 -- select a point causing an error
@@ -51,17 +51,19 @@ det Mat(errorPoint)
 
 -- compute the inverse matrix only if the determinant is nonzero
 MinvAt = point -> (
-    if det Mat(point) == 0 then throw "Det = 0";
-    (Mat(point))^-1
+    M := Mat(point);
+    if det M == 0 then throw "Det = 0";
+    M^-1
     )
 -- update to the new version of MinvAt
 bb.upp("MinvAt",MinvAt);
 catch MinvAt(testPoint)
 catch MinvAt(errorPoint)
 
+
 -- run the experiment again
 e.clear()
-e.run(100);
+e.run(100)
 e.collectedCount()
 
 -- notice that we do not have to put any error handling code
