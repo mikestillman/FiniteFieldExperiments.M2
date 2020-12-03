@@ -1,0 +1,207 @@
+\documentclass[12pt,a4paper]{amsart}       
+\usepackage{german,amsmath,amssymb,latexsym,amsfonts}   
+\usepackage{graphicx}              %                
+\usepackage{enumerate}
+%\setlength{\topmargin}{-1cm} 
+%\setlength{\textheight}{23.5cm} 
+%\setlength{\textwidth}{20cm}
+%\setlength{\evensidemargin}{-4mm}  
+%\setlength{\oddsidemargin}{-4mm}  
+
+%\setlength{\mathsurround}{2pt}
+%\setlength{\parindent}{0mm}
+%\setlength{\parskip}{3mm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% for M2 code %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% use this verbatim like environment to insert Macaulay2 code.
+%% Another program can replace this block with it execution
+\usepackage{fancyvrb}
+
+\newenvironment{m2}
+  {
+    % First, we tell fancyvrb that we're inside a verbatim environment.
+    \tiny
+    \VerbatimEnvironment
+    \begin{Verbatim}[frame=single]%
+  }
+  {\end{Verbatim}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[left=1.5in,top=1in,right=1.5in,bottom=1in]{geometry}
+
+\usepackage{graphicx}
+\usepackage{color}
+
+\usepackage[all]{xy}
+
+ \renewcommand{\thesubsection}{\thesection.\alph{subsection}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem*{expectation}{Expectation}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{problem}[theorem]{Problem}
+
+
+% Separate numbering for Theorem statements in the introduction
+\newtheorem{theoremintro}{Theorem}
+\newcommand{\theHtheoremintro}{\Alph{theoremintro}}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+
+%\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+
+\newcommand{\residue}{\partial}
+\newcommand{\divisor}{\mathrm{div}}
+\newcommand{\Brtwo}{{}_2\mathrm{Br}}
+\newcommand{\Pictwo}{{}_2\mathrm{Pic}}
+
+\newcommand{\isom}{\cong}
+\newcommand{\isomto}{\simto}
+\newcommand{\isometry}{\cong}
+
+\newcommand{\FF}{\mathbb F}
+\newcommand{\ZZ}{\mathbb Z}
+\renewcommand{\AA}{\mathbb A}
+\newcommand{\CC}{\mathbb C}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\QQ}{\mathbb Q}
+\newcommand{\Gm}{\mathbb{G}_{\mathrm{m}}}
+%\newcommand{\T}{\mathbb{T}}
+
+\DeclareMathOperator{\AAut}{\mathbf{Aut}}
+\DeclareMathOperator{\Aut}{\mathrm{Aut}}
+\DeclareMathOperator{\Br}{\mathrm{Br}}
+\DeclareMathOperator{\Isom}{\mathrm{Isom}}
+\DeclareMathOperator{\IIsom}{\Group{Isom}}
+\DeclareMathOperator{\PPic}{\sheaf{P}\!\mathit{ic}}
+\DeclareMathOperator{\Pic}{\mathrm{Pic}}
+\DeclareMathOperator{\rk}{\mathrm{rk}}
+\DeclareMathOperator{\SSpec}{\mathbf{Spec}}
+\DeclareMathOperator{\Spec}{\mathrm{Spec}}
+\DeclareMathOperator{\EExt}{\sheaf{E}\!\mathit{xt}}
+\DeclareMathOperator{\Ext}{\mathrm{Ext}}
+\DeclareMathOperator{\coker}{\mathrm{coker}}
+\DeclareMathOperator{\Mor}{Mor}
+\DeclareMathOperator{\codim}{codim}
+%\DeclareMathOperator{\log}{log}
+
+\newcommand{\inv}{^{-1}}
+\newcommand{\sep}{^{\mathrm{s}}}
+\newcommand{\mult}{^{\times}}
+\newcommand{\dual}{^{\vee}}
+\newcommand{\tensor}{\otimes}
+\newcommand{\bslash}{\smallsetminus}
+\newcommand{\mapto}[1]{\xrightarrow{#1}}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\wt}[1]{\widetilde{#1}}
+\newcommand{\et}{\mathrm{\acute{e}t}}
+
+\newcommand{\linedef}[1]{\textsl{#1}}
+\newcommand{\Het}{H_{\et}}
+\newcommand{\ur}{\mathrm{nr}}
+%\newcommand{\ur}{\mathrm{ur}}
+\newcommand{\Hur}{H_{\ur}}
+\newcommand{\merk}{\mathrm{r}}
+\newcommand{\Hr}{H_{\merk}}
+\newcommand{\Pfister}[1]{\ll\!{#1}\gg}
+\newcommand{\quadform}[1]{<\! #1 \!>}
+\newcommand{\Local}{\mathsf{Local}}
+\newcommand{\Ab}{\mathsf{Ab}}
+\newcommand{\Var}{\mathsf{Var}}
+\newcommand{\Frac}{\mathrm{Frac}}
+\newcommand{\im}{\mathrm{im}}
+\newcommand{\CH}{\mathrm{CH}}
+\newcommand{\CM}{\mathsf{CM}}
+\newcommand{\res}{\mathrm{res}}
+\newcommand{\cores}{\mathrm{cor}}
+\newcommand{\ord}{\mathrm{ord}}
+\newcommand{\Norm}{\mathrm{N}}
+\newcommand{\vp}{\varphi}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand\WHY{{\color{red}\textsf{WHY?}}~}
+
+%\renewcommand{\labelenumi}{\it\alph{enumi})}
+\renewcommand\theenumi{\it\alph{enumi}}
+\renewcommand\labelenumi{\theenumi)}
+
+\usepackage[backref=page]{hyperref}
+
+%% This is supposed to be translated into "@TO....@" in the Macaulay2 documentation
+\newcommand{\link}[1]{\tt #1}
+
+\begin{document}
+
+\title{Finite Field Experiments}
+
+\author{Jakob Kr\"oker}
+\author{Mike Stillmann}
+\author{Hans-Christian v.\,Bothmer}
+
+\maketitle
+
+\section{Weil Conjectures}
+
+We follow Hartshorne Appendix C. 
+\medskip
+
+Let $X$ projective variety of dimension $n$ defined over $\ZZ$. Assume $X$ is smooth over $\FF_q$, $q$ a prime number. It is then automatically smooth over $\CC$. 
+
+Let now
+\[
+	N_r := \left| X\bigl(\FF_{q^r}\bigr) \right|
+\]
+the number of rational points of $X$ over $\FF_{q^r}$. Then 
+\[
+	Z(t) := \exp \left( \sum_{r=1}^{\infty} N_r \frac{t^r}{r} \right)
+\]
+is called {\sl zeta function} of $X$. Notice that
+\[
+	Z(t) = 1 + N_1 t + \dots
+\]
+i.e. that the linear term of $Z(t)$ is the number of rational points of $X$ over $\FF_q$. Now from the Weil conjectures we now, that there are polynomials $P_i \in \ZZ[t]$ such that
+\begin{enumerate}
+\item $Z(t) = \frac{P_1(t) P_3(t) \cdots P_{2n-1}(t)}{P_0(t)P_2(t) \cdots P_{2n}(t)}$
+\item $P_0(t) = 1 - t$
+\item $P_{2n}(t) = 1 - q^n t$
+\item $P_{i}(t) = \prod (1 - \alpha_{ij} t)$ with $\alpha_{ij}$ algebraic integers with $|\alpha_{ij}| = \sqrt{q^i}$.
+\item $\deg P_{i} = B_i = h^i(X_{\CC},\ZZ)$, where $X_\CC$ is the variety defined by the equations of $X$ over $\CC$.
+\end{enumerate}
+From this information we can compute the linear term of the zeta function as
+\[
+	Z(t) = 1 + \left( 1 + q^n+ \sum_{\text{$i$ even}} \alpha_{ij} - \sum_{\text{$i$ odd}} \alpha_{ij} \right) t + \dots
+\]
+Now observe that
+\[
+	\left| \sum_{\text{$i$ even}} \alpha_{ij} - \sum_{\text{$i$ odd}} \alpha_{ij} \right| 
+	\le \sum_{\text{$i$ even}} |\alpha_{ij}| + \sum_{\text{$i$ odd}} |\alpha_{ij}|  
+	= \sum_{i=1}^{2n-1} B_i \sqrt{q^i}
+\]
+and therefore
+\[
+	| N_1 - (1+q^n) | \le \sum_{i=1}^{2n-1} B_i \sqrt{q^i}
+\]
+Notice that if one thinks of $N_1$ as a random variable and of the $\alpha_{ij}$ as uniformly distributed on the circle with radius $\sqrt{q^i}$ then the distribution of $N_1$ would have expected value
+\[
+	\mu(N_1) = 1+ q^n
+\]
+and standard deviation
+\[
+	\sigma(N_1) = \sqrt{\sum_{i=1}^{2n-1} B_i q^i}.
+\]
+
+
+\end{document}
