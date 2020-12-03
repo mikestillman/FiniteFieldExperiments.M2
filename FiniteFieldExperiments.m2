@@ -760,65 +760,6 @@ TEST ///
 ///
 
 
-doc ///
-   Key
-        (createRandomPointIterator, Ring, ZZ)
-   Headline
-        create  iterator over random points given by ground ring and number of coordinates.
-   Usage   
-        pointIterator = createRandomPointIterator(R, dim)
-   Inputs  
-         rng: Ring
-            the coefficient ring 
-         n:ZZ
-            dimension of the vector space over rng 
-   Description
-        Text
-           Create an iterator over random points \in R^{n}, given as matrices \break
-           See also PointIterator.
-        Example
-           rng = QQ
-           numCoordinates := 4_ZZ
-           pointIterator = createRandomPointIterator(rng, numCoordinates);
-        Text
-           now we are able to generate random points by calling next():
-        Example
-           pointIterator.next()
-           pointIterator.getPoint()
-           pointIterator.position()
-           pointIterator.next()
-           pointIterator.getPoint()
-           pointIterator.position()       
-///
-
-doc ///
-   Key
-        (createRandomPointIterator, Function)
-   Headline
-        create iterator over points given by a point generator.
-   Usage   
-        pointIterator = createRandomPointIterator(weakPointGenerator)
-   Inputs  
-        weakPointGenerator: Function
-            a function which generates a random point of type Matrix or returns null
-   Description
-        Text
-           Create an iterator over random points using a given random point generator \break
-           See also PointIterator.
-        Example
-           weakPointGenerator := ()-> (if odd random(ZZ) then random(QQ^1,QQ^3) );
-           pointIterator = createRandomPointIterator(weakPointGenerator);
-        Text
-           now we are able to generate random points by calling next():
-        Example
-           pointIterator.next()
-           pointIterator.getPoint()
-           pointIterator.position()
-           pointIterator.next()
-           pointIterator.getPoint()
-           pointIterator.position()        
-///
-
 createIterator = method();
 createIterator (List) := PointIterator =>( pPoints )->
 (
@@ -863,31 +804,6 @@ createIterator (List) := PointIterator =>( pPoints )->
     pIterator = newClass(PointIterator,pIterator);
     return pIterator;
 );
-
-doc ///
-   Key
-        (createIterator)
-   Headline
-        create iterator over elements given by a list
-   Usage   
-        pointIterator = createIterator(list)
-   Inputs  
-        list: List
-            a list of ite
-   Description
-        Text
-           Create an iterator over random points using a given random point generator \break
-           See also PointIterator.
-        Example
-           pointList = apply (4, i -> random( ZZ^1, ZZ^3 ) )
-           pointIterator = createIterator(pointList);
-        Text
-           now we are able to iterate over all points:
-        Example
-           while  pointIterator.next() do pointIterator.getPoint()
-           pointIterator.next()
-///
-
 
 EstimatedDecomposition = new Type of HashTable;
 
@@ -2065,9 +1981,6 @@ TEST ///
   
 ///
 
- 
-
-
 -- tryProperty = (experiment, property) ->(
 --     pointLists := experiment.pointLists();
 --     apply(
@@ -2076,6 +1989,94 @@ TEST ///
 --           )
 --     )
 
+beginDocumentation()
+
+doc ///
+   Key
+        (createRandomPointIterator, Ring, ZZ)
+   Headline
+        create  iterator over random points given by ground ring and number of coordinates.
+   Usage   
+        pointIterator = createRandomPointIterator(R, dim)
+   Inputs  
+         rng: Ring
+            the coefficient ring 
+         n:ZZ
+            dimension of the vector space over rng 
+   Description
+        Text
+           Create an iterator over random points \in R^{n}, given as matrices \break
+           See also PointIterator.
+        Example
+           rng = QQ
+           numCoordinates := 4_ZZ
+           pointIterator = createRandomPointIterator(rng, numCoordinates);
+        Text
+           now we are able to generate random points by calling next():
+        Example
+           pointIterator.next()
+           pointIterator.getPoint()
+           pointIterator.position()
+           pointIterator.next()
+           pointIterator.getPoint()
+           pointIterator.position()       
+///
+
+doc ///
+   Key
+        (createRandomPointIterator, Function)
+   Headline
+        create iterator over points given by a point generator.
+   Usage   
+        pointIterator = createRandomPointIterator(weakPointGenerator)
+   Inputs  
+        weakPointGenerator: Function
+            a function which generates a random point of type Matrix or returns null
+   Description
+        Text
+           Create an iterator over random points using a given random point generator \break
+           See also PointIterator.
+        Example
+           weakPointGenerator := ()-> (if odd random(ZZ) then random(QQ^1,QQ^3) );
+           pointIterator = createRandomPointIterator(weakPointGenerator);
+        Text
+           now we are able to generate random points by calling next():
+        Example
+           pointIterator.next()
+           pointIterator.getPoint()
+           pointIterator.position()
+           pointIterator.next()
+           pointIterator.getPoint()
+           pointIterator.position()        
+///
+
+doc ///
+   Key
+        (createIterator)
+   Headline
+        create iterator over elements given by a list
+   Usage   
+        pointIterator = createIterator(list)
+   Inputs  
+        list: List
+            a list of ite
+   Description
+        Text
+           Create an iterator over random points using a given random point generator \break
+           See also PointIterator.
+        Example
+           pointList = apply (4, i -> random( ZZ^1, ZZ^3 ) )
+           pointIterator = createIterator(pointList);
+        Text
+           now we are able to iterate over all points:
+        Example
+           while  pointIterator.next() do pointIterator.getPoint()
+           pointIterator.next()
+///
+
+
+
+-- XXX
 
 doc ///
    Key
@@ -2235,18 +2236,89 @@ doc ///
           heuristic decomposition of black box ideals
     Description
         Text
-            With an {\tt  Experiment } it is possible to check point properties of an @TO BlackBoxParameterSpace@ or @TO BlackBoxIdeal@ 
-            at random points and collect them. \break
-            From the collected statistics a heuristic decomposition can be estimated in case the black box supports the computation of the 
-            jacobian rank at a point.
-            \break
-            Finally a herustic decomposition can be computed using interpolation methods if the black box supports jet calculations.
-            \break \break
+            This article describes the packages {\tt
+            BlackBoxParameterSpaces} {\color{red} (rename Package)}
+            and {\tt FiniteFieldExperiments} that are mostly used
+            together, but the first one can also be used alone for
+            some applications.
 
-            {\bf QuickStart } \break \break
-            See @TO "Experiment example"@ for a tutorial.
-                        
-      
+            The purpose of these packages is to study moduli spaces or
+            more generally parameter spaces $X$ together with their
+            universal families. This study comes in two flavours:
+
+        Text
+            @UL {
+            {"The first situation is one, in which one has a
+            unirational parametrisation
+            \\[
+                \\phi \\colon {\\mathbb A}^n \\to X
+            \\]
+            of some parameter space. In this situation one is often
+            interested in the stratification of $X$ by some property
+            of the parametrised objects. Our running example for this
+            type of question is the stratification of the space of
+            cubic surfaces in $\\PP^3$ by singularity type. Here $X$ is
+            represented by a ", TO BlackBoxParameterSpace, "."
+            },
+            {"In the second situation $X$ is given as a subvariety of some larger unirational moduli space
+            \\[
+                X \\subset {\\mathbb A}^n.
+           \\]
+           Here one is interested in the components of $X$ and their
+           moduli interpretation. Our running example in this case is
+           the variety of complexes. Here $X$ is represented by a ", TO BlackBoxIdeal, "."}
+           }@
+
+           In both cases the study of $X$ is done over a finite field
+           by looking at a large number of random points in
+           ${\mathbb A}^n$. Since we are over a finite field, we have some non
+           zero chance of finding points in interesting strata (in the
+           first case) or on interesting components (in the second
+           case). Moreover the statistics of such a finite field
+           experiment contain non trivial heuristic information about
+           the stratification (in the first case) or the irreducible
+           components of $X$ (in the second case). The interesting
+           points and the statistical information generated are
+           collected in an object of type {\tt FiniteFieldExperiment}.
+
+           In our implementation the package {\tt
+           BlackBoxParameterSpaces} contains the tools to set up a
+           parameter space $X$ as above together with its universal
+           family, so that it can be used in a finite field
+           experiment. It also provides some black-box-algorithms that
+           still work if instead of the equations of $X \subset {\mathbb A}^n$
+           only an algorithm to evaluate the equations is given. To
+           explain the difference between an equation and an
+           evaluation algorithm we look at the example of
+           determinants.
+
+           The package {\tt FiniteFieldExperiments} contains the tools
+           to run a finite field experiment, collect the results and
+           interpret the statistical information gathered.
+
+           People familiar with the idea of finite field experiments
+           will notice that a specialised package for this type of
+           study is not strictly necessary. The advantage of our
+           implementation to such people is:
+           \begin{enumerate}[(a)]
+               \item The automatic bookkeeping during a finite field
+               experiment: The algorithms provided will use heuristic
+               methods to store interesting points while forgetting
+               uninteresting ones. At the same time they will collect
+               the stochastic information generated by the experiment.
+               \item The possibility of continuing an experiment: If
+               an experiment is run with a few points first, and then
+               with increasingly more points, the algorithms will
+               collect and combine the information found in all runs.
+               \item The black-box-Algorithms 
+           \end{enumerate}
+
+           For novices, the structured way of setting up a finite
+           field experiment with this package, in particular the {\tt
+           xxxAt}-notation seems to help to get into the philosophy of
+           this type of study.
+
+           See @TO "Experiment example"@ for a tutorial. (Remove this line).
     Caveat
          The package development is at alpha status and the package is not threadsafe. 
          The interpolation is not time-optimized.

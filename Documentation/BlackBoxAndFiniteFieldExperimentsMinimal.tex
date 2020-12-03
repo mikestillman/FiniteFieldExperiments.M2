@@ -219,13 +219,13 @@ A {\tt BlackBoxParameterSpace} represents an unirational parameter space
 together with its universal family. While the parameter space $\AA^n$ itself is trivial, the interesting information lies in the objects that are parametrized by this space. In this package these objects and their properties are modelled by {\tt pointProperties}. Any function that depends only on the coordinates of a point $P \in \AA^n$ can be a point property. Points are modelled by row vectors over a field, while 
 point properties are functions that take a matrix as input and can have any type as output. We use the convention that the name of a point property is of the form {\tt xxxAt}, because it computes a property of the parametrised object {\sl at} a given point. Point properties need to be registered in a {\tt BlackBoxParameter} space if one wants to use them later in a {\tt FiniteFieldExperiment}. 
 
-\begin{itemize}
-\item {\tt blackBoxParameterSpace} - make a new {\tt BlackBoxParameterSpace}
-\item {\tt registerPointProperty} or {\tt rpp} - register a new {\tt pointProperty}
-\item {\tt updatePointProperty} or {\tt upp} - change an existing {\tt pointProperty}
-\item {\tt pointProperties} - list the pointProperties of a black box
-\item {\tt hasPointPropery} - check whether a point property is defined
-\end{itemize}
+%% \begin{itemize}
+%% \item {\tt blackBoxParameterSpace} - make a new {\tt BlackBoxParameterSpace}
+%% \item {\tt registerPointProperty} or {\tt rpp} - register a new {\tt pointProperty}
+%% \item {\tt updatePointProperty} or {\tt upp} - change an existing {\tt pointProperty}
+%% \item {\tt pointProperties} - list the pointProperties of a black box
+%% \item {\tt hasPointPropery} - check whether a point property is defined
+%% \end{itemize}
 
 As a running example we study the stratification of the space of cubic surfaces by singularity type. 
 
@@ -241,14 +241,14 @@ First we load the package and set the random seed, so that we always get the sam
 We work in characteristic $7$:
 
 \begin{m2}
-  K = ZZ/7
+  K = ZZ/7;
 \end{m2}
 
 
-The coordinate Ring of $\PP^3$:
+The coordinate ring of $\PP^3$:
 
 \begin{m2}
-  R = K[x,y,z,w]
+  R = K[x,y,z,w];
 \end{m2}
 
 
@@ -269,28 +269,25 @@ We use the $20$ monomials of degree $3$ to make a cubic polynomial from a $1 \ti
 
 \begin{m2} 
   mons3 = super basis(3,R)
-  cubicAt = (point) -> matrix entries (point*transpose mons3)
+  cubicAt = point -> matrix entries (point * transpose mons3)
 \end{m2}
 
 As an example we look at the vector of coefficients that defines the Fermat-cubic:
 
 \begin{m2}
   fermatPoint = matrix {{1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1_K}}
-  cubicAt(fermatPoint)
+  cubicAt fermatPoint
 \end{m2}
-
-
-
 
 We now register this function in the back box, so we can later use it in a 
 {\tt FiniteFieldExperiment}.
 
 \begin{m2}
-  bbC = bbC.registerPointProperty("cubicAt",cubicAt);
+  bbC = bbC.registerPointProperty("cubicAt", cubicAt);
 \end{m2}
 
 Now the black box is not empty anymore, but contains a point property that gives a cubic polynomial
-corresponding to a point in $\AA^2$. 
+corresponding to a point in $\AA^{20}$. 
 
 \begin{m2}
   bbC.pointProperties()
@@ -299,27 +296,27 @@ corresponding to a point in $\AA^2$.
 We now want to stratify this parameter space by singularity type. For this we need to compute the singular locus of the cubic surface at each point of $\AA^2$.
 
 \begin{m2}
-singularLocusAt = (point) -> ideal jacobian cubicAt(point)
+singularLocusAt = point -> ideal jacobian cubicAt point
 \end{m2}
 
-As an example we can check that the Fermat-cubic is smooth
+As an example we can check that the Fermat-cubic is smooth.
 
 \begin{m2}
-codim singularLocusAt(fermatPoint)
+codim singularLocusAt fermatPoint
 \end{m2}
 
-For a singular example we look at the Cayley-cubic. It hat four $A_1$ singularities:
+For a singular example we look at the Cayley cubic. It has four $A_1$ singularities:
 
 \begin{m2}
 cayleyPoint = matrix {{3,-3,-3,-3,-3,1,1,-3,1,-3,3,-3,-3,-3,1,-3,3,-3,-3,3_K}}
-codim singularLocusAt(cayleyPoint)
-degree singularLocusAt(cayleyPoint)
+codim singularLocusAt cayleyPoint
+degree singularLocusAt cayleyPoint
 \end{m2}
 
 We also register this {\tt pointProperty} in the black box:
 
 \begin{m2}
-bbC = bbC.registerPointProperty("singularLocusAt",singularLocusAt);
+bbC = bbC.registerPointProperty("singularLocusAt", singularLocusAt);
 bbC.pointProperties()
 \end{m2}
 
@@ -337,17 +334,17 @@ degreeSingularLocusAt = (point) -> (
      )
 \end{m2}
 
-Indeed this gives the correct answers for our examples>
+Indeed this gives the correct answers for our examples:
 
 \begin{m2}
-degreeSingularLocusAt(fermatPoint)
-degreeSingularLocusAt(cayleyPoint)
+degreeSingularLocusAt fermatPoint
+degreeSingularLocusAt cayleyPoint
 \end{m2}
 
-Again we register this {\tt pointPropery}
+Again we register this {\tt pointProperty}.
 
 \begin{m2}
-bbC = bbC.registerPointProperty("degreeSingularLocusAt",degreeSingularLocusAt);
+bbC = bbC.registerPointProperty("degreeSingularLocusAt", degreeSingularLocusAt);
 bbC.pointProperties()
 \end{m2}
 
@@ -376,11 +373,11 @@ occurs with probability about $1/q$, so we expect about $q^{n-1}$ points on a hy
 
 \
 
-So if $Y \subset \AA^n$ is an irreduible component of a stratum, then  in a first order approximation we have
+So if $Y \subset \AA^n$ is an irreducible component of a stratum, then in a first order approximation we have
 \[
 	|Y(\FF_q) | \approx q^{\dim Y}.
 \]
-If choose random points $x \in \AA^n$ with equal distribution, then the probability that such a point lies on $Y$ is approximately
+If we choose random points $x \in \AA^n$ with equal distribution, then the probability that such a point lies on $Y$ is approximately
 \[
 	P(Y) = \frac{|Y(\FF_q)|}{q^n} \approx q^{\dim Y - n} = q^{-\codim Y}.
 \]
@@ -389,24 +386,25 @@ Taking logarithms we get
 	- \log_q P(Y) \approx \codim Y.
 \]
 
-\begin{itemize}
-\item {\tt new FiniteFieldExperiment from BlackBoxParameterSpace}
-\item {\tt watchProperty} - select a {\tt pointProperty} from the Black box to be evaluated at random points
-\item {\tt watchedProperites} - a list of currently evaluated point properties
-\item {\tt run} - evaluate the watched properties at an additional number of points
-\item {\tt trials} - the number of point evaluated so far
-\item {\tt counts} - the number of points found on each stratum
-\item {\tt estimatedCodimension} - estimate the codimension of each stratum using the heuristic explained above
-\item {\tt pointsByKey} - a list of points on a given stratum. 
-\item {\tt tryProperty} -  evaluate a new point property on the points found so far.
-\item {\tt clear} - erase all points and statistics.
-\item {\color{red} possibly:} {\tt load} and {\tt save}.
-\end{itemize}
+%% \begin{itemize}
+%% \item {\tt new Experiment from BlackBoxParameterSpace}
+%% \item {\tt watchProperty} - select a {\tt pointProperty} from the Black box to be evaluated at random points
+%% \item {\tt watchedProperites} - a list of currently evaluated point properties
+%% \item {\tt run} - evaluate the watched properties at an additional number of points
+%% \item {\tt trials} - the number of points evaluated so far
+%% \item {\tt counts} - the number of points found on each stratum
+%% \item {\tt estimatedCodimension} - estimate the codimension of each stratum using the heuristic explained above
+%% \item {\tt pointsByKey} - a list of points on a given stratum. 
+%% \item {\tt tryProperty} -  evaluate a new point property on the points found so far.
+%% \item {\tt clear} - erase all points and statistics.
+%% \item {\color{red} possibly:} {\tt load} and {\tt save}.
+%% \end{itemize}
 
 Returning to the cubic surfaces of the preceding section we set up a finite field experiment:
 
 \begin{m2}
-e = new Experiment from bbC;
+  needsPackage "FiniteFieldExperiments"
+  e = new Experiment from bbC;
 \end{m2}
 
 So far the experiment is set up to observe nothing:
@@ -421,21 +419,21 @@ let's evaluate this {\tt pointProperty} in the experiment:
 \begin{m2}
 e.watchProperty("degreeSingularLocusAt")
 e.watchedProperties()
-\end{me}
+\end{m2}
 
 Let's look at 100 random cubics:
 
 \begin{m2}
-e.run(100)
+e.run 100
 \end{m2}
 
 Let's look at some more:
 
 \begin{m2}
-e.run(3000)
+e.run 3000
 \end{m2}
 
-What does this mean? Let's try to estimate the codimension of the found strata
+What does this output mean? Let's try to estimate the codimension of the found strata
 by the heuristic above,
 
 \begin{m2}
@@ -452,13 +450,13 @@ looks strange, it has estimated codimension between 1 and 2.
 \end{itemize}
 The reason for the strange measurement in degree $2$ might be, 
 that $Y_2$ has several components. In this case
-probability of finding points on this stratum would be
+the probability of finding points on this stratum would be
 \[
 	P(Y_2) \approx \frac{r}{7^c}
 \]
 with $c$ the codimension and $r$ the number of components. Taking logarithms gives
 \[
-	\log_7(p) = c-\log_7(r)
+	\log_7(P(Y_2)) = c-\log_7(r)
 \]
 so the estimated codimension of the degree 2 locus would be off by
 
@@ -483,14 +481,15 @@ and $Y_3$ has three components of codimension $3$.
 At this stage of a finite field experiment
 one has to think again about the geometry of the problem. What could be the geometric reason for $Y_2$ to have two components?
 
-For our convenience the {\tt FiniteFieldExperiment} has collected some points on each stratum:
+For our convenience the {\tt Experiment} has collected some points on each stratum:
 
 \begin{m2}
 e.collectedCount()
 e.pointLists()
 \end{m2}
 
-We take the first point on the degree 2 stratum and look at its singular locus im more detail
+We take the first point on the degree 2 stratum and look at its singular locus
+in more detail.
 
 \begin{m2}
 testPoint = (e.pointLists())#{2}#0
@@ -500,40 +499,41 @@ decompose singularLocusAt(testPoint)
 Possibly the cubics with a double point as singular locus
 form a component separate from those with 2 reduced points
 (without the data from the experiment, one could be 
-tempted to think, that the ones with double points
+tempted to think that the ones with double points
 are specializations of those with two reduced points).
-To check wether this is indeed the case we define a
-new {\tt pointPropery} that computes the multiplicity structure of 
-the singular locus
+To check whether this is indeed the case we define a
+new {\tt pointProperty} that computes the multiplicity structure of 
+the singular locus.
 
 \begin{m2}
 multiplicitiesSingularLocusAt = (point) -> (
-     sing := singularLocusAt(point);
-     d := degreeSingularLocusAt(point);
+     sing := singularLocusAt point;
+     d := degreeSingularLocusAt point;
      if d == 0 then return {};
      if d == infinity then return {infinity};
-     pSing := primaryDecomposition(sing);
+     pSing := primaryDecomposition sing;
      sort flatten apply(pSing,i->(
 	       if dim i == 0 then return {};
 	       r := degree radical i;
 	       d := degree i;
-	       apply(r,j->d//r)
+	       apply(r, j-> d//r)
 	       ))
      )
 \end{m2}
 
-Four our example points we get the expected answers:
+For our example points we get the expected answers:
 
 \begin{m2}
-multiplicitiesSingularLocusAt(fermatPoint)
-multiplicitiesSingularLocusAt(cayleyPoint)
-multiplicitiesSingularLocusAt(testPoint)
+multiplicitiesSingularLocusAt fermatPoint
+multiplicitiesSingularLocusAt cayleyPoint
+multiplicitiesSingularLocusAt testPoint
 \end{m2}
 
 We register this property:
 
 \begin{m2}
-bbC = bbC.registerPointProperty("multiplicitiesSingularLocusAt",multiplicitiesSingularLocusAt);
+bbC = bbC.registerPointProperty("multiplicitiesSingularLocusAt",
+              multiplicitiesSingularLocusAt);
 bbC.pointProperties()
 \end{m2}
 
@@ -550,7 +550,7 @@ sets of roughly equal size. This seems promising, so we run our
 experiment again, but this time we observe the multiplicity structure
 of the singular locus. 
 
-First we have to erase all statistics collected so far
+First we have to erase all statistics collected so far.
 
 \begin{m2}
 e.clear() 
@@ -570,7 +570,7 @@ e.watchedProperties()
 Now evaluate the {\tt pointProperties} at $1000$ random points:
 
 \begin{m2}
-time e.run(1000)
+time e.run 1000
 \end{m2}
 
 How does the stratification look like?
@@ -589,14 +589,14 @@ e.estimateStratification()
 % this uses 94.8239 seconds
 
 Indeed we find that the multiplicity structure
-seems to separate the components in codim 2 and 3
+seems to separate the components in codimension 2 and 3
 as we hoped for.
 
 If we would continue looking at more points we would find
 that there seem to be two components with multiplicity structure $\{4\}$. 
 These belong to singularities of type $A_4$ and $D_4$. 
 The complete story about singularities of cubic surfaces is very beautiful
-and can be found in Dolgachev's book {\color{red} (find reference)}
+and can be found in Dolgachev's book {\color{red} (find reference)}.
 
 
 
@@ -607,7 +607,7 @@ and can be found in Dolgachev's book {\color{red} (find reference)}
 
 Most computer algebra code works only over a Zariski-open set of possible input data. For example the algorithm to invert a square matrix over a field works only if the determinant of the matrix is not equal to $0$. If the code is a little more complicated it might be quite difficult to give the exact conditions under which the code will work. 
 
-In a finite field experiment this aquires a particular significance since over a finite field even points in high codimension strata a found with positive probability. So if we run a finite field experiment with
+In a finite field experiment this aquires a particular significance since over a finite field even points in high codimension strata are found with positive probability. So if we run a finite field experiment with
 some basically correct code that fails only on a high codimension set of input data, the experiment will still crash frequently. The {\tt FiniteFieldExperiment} package therefore uses the {\tt try} command of Macaulay2 to catch these errors and counts them like everything else.
 
 As an (artificial) example let's look a the parameter space of $4 \times 4$ matrices and 
@@ -616,128 +616,130 @@ the rank of the inverse of such a matrix.
 We work in characteristic 7
 
 \begin{m2}
-needsPackage "FiniteFieldExperiments"
-K = ZZ/7
+  needsPackage "FiniteFieldExperiments"
+  K = ZZ/7;
 \end{m2}
 
 First we define the $\AA^{16}$ that parametrises the space of $4 \times 4$ matrices:
 
 \begin{m2}
-bb = blackBoxParameterSpace(16,K);
+  bb = blackBoxParameterSpace(16,K);
 \end{m2}
 
 For testing purposes we also choose a random point
 \begin{m2}
-testPoint = random(K^1,K^16)
+  testPoint = random(K^1,K^16)
 \end{m2}
 
 Now we define for each point in $\AA^{16}$ a $4 \times 4$ matrix $M$  ('M at'):
 
 \begin{m2}
-Mat = point -> point_{0..3}||point_{4..7}||point_{8..11}||point_{12..15}
-bb.rpp("Mat",Mat);
-Mat(testPoint)
+  Mat = point -> reshape(K^4, K^4, point)
+  bb.rpp("Mat", Mat);
+  Mat testPoint
 \end{m2}
 
 For each such point we also define the inverse matrix  ('M inverse at')
 
 \begin{m2}
-MinvAt = point -> (
-    (Mat(point))^-1
-    )
-bb.rpp("MinvAt",MinvAt);
-MinvAt(testPoint)
+  MinvAt = point -> (Mat point)^-1
+  bb.rpp("MinvAt",MinvAt);
+  MinvAt(testPoint)
 \end{m2}
 
 Now we compute the rank of the inverse matrix
 
 \begin{m2}
-rankInvAt = point -> rank (MinvAt(point))
-bb.rpp("rankInvAt",rankInvAt);
-rankInvAt(testPoint)
+  rankInvAt = point -> rank MinvAt point
+  bb.rpp("rankInvAt", rankInvAt);
+  rankInvAt testPoint
 \end{m2}
 
 With this (very artificial) parameter space we set up an experiment:
 
 \begin{m2}
-e = new Experiment from bb
+  e = new Experiment from bb;
 \end{m2}
 
 We want to observe the rank of the inverse matrix
 
 \begin{m2}
-e.watchProperty("rankInvAt")
+  e.watchProperty "rankInvAt"
 \end{m2}
 
 Let's run the experiment on $100$ points
 
 \begin{m2}
-e.run(100);
-e.collectedCount()
+  e.run(100);
+  e.collectedCount()
 \end{m2}
 
 Notice that the experiment did not crash but dutifully counted the
 number of times an error occured. It even saved some points causing
-an error for closer inspection. We select the fist of these:
+an error for closer inspection. We select the first of these:
 
 \begin{m2}
-errorPoint = ((e.pointLists())#{Error})#0
+  errorPoint = ((e.pointLists())#{Error})#0
 \end{m2}
 
-We run try our {\tt pointProperties} with this offending point, to see where the problem lies:
+We try running our {\tt pointProperties} with this offending point, to see where the problem lies:
 
 \begin{m2} 
-try Mat(errorPoint)
+  try Mat errorPoint
 \end{m2}
 
 This works fine, so let's try the next {\tt pointProperty}
 
 \begin{m2}
-try MinvAt(errorPoint)
+  try MinvAt errorPoint
 \end{m2}
 
-So  here something strange happens. Indeed the problem is, that the determinant of $M$ is zero:
+So here something strange happens. Indeed the problem is, that the determinant of $M$ is zero:
 
 \begin{m2}
-det Mat(errorPoint)
+  det Mat errorPoint
 \end{m2}
 
-Sometimes (as here) the question asked makes only sense on an open subset of the parameter space. In this case one can use the throw/catch mechanism to get more useful statistics. 
+Sometimes (as here) the question asked only makes sense on an open subset of the parameter space. In this case one can use the throw/catch mechanism to get more useful statistics. 
 
 We change {\tt MinvAt} such that it throws a readable error message if the determinant of
 $M$ is zero. The inverse is only computed when the determinant is non zero:
 
 \begin{m2}
 MinvAt = point -> (
-    M := Mat(point);
+    M := Mat point;
     if det M == 0 then throw "Det = 0";
     M^-1
     )
 \end{m2}    
-Update to the new version of {\tt MinvAt}
+Update to the new version of {\tt MinvAt}.
 
 \begin{m2}
-bb.upp("MinvAt",MinvAt);
+  bb.upp("MinvAt",MinvAt);
 \end{m2}
 
-We can now use {\tt catch} to see the error message if there is one
+We can now use {\tt catch} to see the error message if there is one.
 
 \begin{m2}
-catch MinvAt(testPoint)
-catch MinvAt(errorPoint)
+  catch MinvAt testPoint
+  catch MinvAt errorPoint
 \end{m2}
 
-Let"s now run the experiment again with this updated version of {\tt MinvAt}
+Let's now run the experiment again with this updated version of {\tt MinvAt}
 
 \begin{m2}
-e.clear()
-e.run(100)
+  e.clear()
+  e.run 1000
 \end{m2}
+
+{\color{red}Chris: This line refers to a property that we have not defined here:}
 
 Notice that the error message of {\tt MinvAt} is passed through {\tt entryAt} without problem and without any special code inside {\tt entryAt}.
 
-A fun application of this is the testing of code. Make a point property out of the code to be tested and run a finite field experiment. One then gets the stratification of the input space by error code and also examples of input that crashes the given code ('Vogon Poetry').
-In particular this uncovers high codimension errors that would be only very difficult to detect via classic testing. 
+{\color{red}Possible todo: Add in an example of testing code.  At least do this in the
+  documentation for the package}
+%% A fun application of this is the testing of code. Make a point property out of the code to be tested and run a finite field experiment. One then gets the stratification of the input space by error code and also examples of input that crashes the given code ('Vogon Poetry').
+%% In particular this uncovers high codimension errors that would be only very difficult to detect via classic testing. 
 
-{\color{red} test some M2 functionality}
+%% {\color{red} test some M2 functionality}
 \end{document}
