@@ -2,6 +2,7 @@
 \usepackage{german,amsmath,amssymb,latexsym,amsfonts}   
 \usepackage{graphicx}              %                
 \usepackage{enumerate}
+\usepackage{eepic}
 %\setlength{\topmargin}{-1cm} 
 %\setlength{\textheight}{23.5cm} 
 %\setlength{\textwidth}{20cm}
@@ -12,6 +13,8 @@
 %\setlength{\parindent}{0mm}
 %\setlength{\parskip}{3mm}
 
+
+\newcommand{\xycenter}[1]{\begin{center}\mbox{\xymatrix{#1}}\end{center}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% for M2 code %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -595,10 +598,94 @@ as we hoped for.
 If we would continue looking at more points we would find
 that there seem to be two components with multiplicity structure $\{4\}$. 
 These belong to singularities of type $A_4$ and $D_4$. 
-The complete story about singularities of cubic surfaces is very beautiful
-and can be found in Dolgachev's book {\color{red} (find reference)}.
+The complete story about singularities of cubic surfaces is very beautiful:
+Every possible combination of singularity types on a normal cubic surface can be obtained by erasing points and lines from the Dynkin diagram $E_6$
 
+\hspace{3cm}
+\xymatrix{
+&&\bullet \ar@{-}[d] 
+\\
+\bullet \ar@{-}[r] &
+\bullet \ar@{-}[r] &
+\bullet \ar@{-}[r] &
+\bullet \ar@{-}[r] &
+\bullet  &
+}
 
+The possibilities in degree $4$ are:
+
+\hspace{3cm}
+\xymatrix{
+&&\circ \ar@{.}[d] 
+\\
+\circ  \ar@{.}[r] &
+\bullet \ar@{.}[r] &
+\bullet \ar@{.}[r] &
+\bullet \ar@{.}[r] &
+\bullet &
+(A_1+A_1+A_1+A_1)
+}
+
+\hspace{3cm}
+\xymatrix{
+&&\circ \ar@{.}[d] 
+\\
+\circ  \ar@{.}[r] &
+\bullet \ar@{-}[r] &
+\bullet \ar@{.}[r] &
+\bullet \ar@{.}[r] &
+\bullet &
+(A_2+A_1+A_1)
+}
+
+\hspace{3cm}
+\xymatrix{
+&&\circ \ar@{.}[d] 
+\\
+\circ  \ar@{.}[r] &
+\bullet \ar@{-}[r] &
+\bullet \ar@{.}[r] &
+\bullet \ar@{-}[r] &
+\bullet &
+(A_2+A_2)
+}
+
+\hspace{3cm}
+\xymatrix{
+&&\circ \ar@{.}[d] 
+\\
+\circ  \ar@{.}[r] &
+\bullet \ar@{-}[r] &
+\bullet \ar@{-}[r] &
+\bullet \ar@{.}[r] &
+\bullet &
+(A_3+A_1)
+}
+
+\hspace{3cm}
+\xymatrix{
+&&\circ \ar@{.}[d] 
+\\
+\circ  \ar@{.}[r]&
+\bullet \ar@{-}[r] &
+\bullet \ar@{-}[r] &
+\bullet \ar@{-}[r] &
+\bullet &
+(A_4)
+}
+
+\hspace{3cm}
+\xymatrix{
+&&\bullet \ar@{-}[d] 
+\\
+\circ   \ar@{.}[r] &
+\bullet \ar@{-}[r] &
+\bullet \ar@{-}[r] &
+\bullet  \ar@{.}[r] &
+\circ  & (D_4)
+}
+
+Up to degree $d=4$ all possible sub lattices of $E_6$ do indeed correspond to irreducible codimension $d$ strata containing singular cubic surfaces with the corresponding singularity types. For degree $5$ and $6$ some restrictions apply. See \cite[Section 9.2]{Dolgachev} for the complete story.
 
 %%%%%%%%%%%%%%%
 \section{Handling Errors}
