@@ -217,10 +217,10 @@ For novices, the structured way of setting up a finite field experiment with thi
 
 A {\tt BlackBoxParameterSpace} represents an unirational parameter space
 \[
-	\AA^n \to X
+	\PP^n \to X
 \]
-together with its universal family. While the parameter space $\AA^n$ itself is trivial, the interesting information lies in the objects that are parametrized by this space. In this package these objects and their properties are modelled by {\tt pointProperties}. Any function that depends only on the coordinates of a point $P \in \AA^n$ can be a point property. Points are modelled by row vectors over a field, while 
-point properties are functions that take a matrix as input and can have any type as output. We use the convention that the name of a point property is of the form {\tt xxxAt}, because it computes a property of the parametrised object {\sl at} a given point. Point properties need to be registered in a {\tt BlackBoxParameter} space if one wants to use them later in a {\tt FiniteFieldExperiment}. 
+together with its universal family. While the parameter space $\PP^n$ itself is trivial, the interesting information lies in the objects that are parametrized by this space. In this package these objects and their properties are modelled by {\tt pointProperties}. Any function that depends only on the coordinates of a point $P \in \PP^n$ can be a point property. Points are represented by $1 \times (n+1)$ row vectors over a field, while 
+point properties are functions that take a matrix as input and can have any type as output. We use the convention that the name of a point property is of the form {\tt xxxAt}, because it computes a property of the parametrised object {\sl at} a given point. Point properties need to be registered in a {\tt BlackBoxParameter} space if one wants to use them later in a {\tt FiniteFieldExperiment}.
 
 %% \begin{itemize}
 %% \item {\tt blackBoxParameterSpace} - make a new {\tt BlackBoxParameterSpace}
@@ -255,7 +255,7 @@ The coordinate ring of $\PP^3$:
 \end{m2}
 
 
-Let's now make a {\tt BlackBoxParameterSpace} describing the parameter space of homogenous cubic polynomials in $4$ variables. Since there are $20$ degree $3$ monomials in the coordinate ring on $\PP^3$ this parameter space is $\AA^{20}$: 
+Let's now make a {\tt BlackBoxParameterSpace} describing the parameter space of homogenous cubic polynomials in $4$ variables. Since there are $20$ degree $3$ monomials in the coordinate ring on $\PP^3$ this parameter space is $\PP^{19}$: 
 
 \begin{m2}
   bbC = blackBoxParameterSpace(20,K);
@@ -290,13 +290,13 @@ We now register this function in the back box, so we can later use it in a
 \end{m2}
 
 Now the black box is not empty anymore, but contains a point property that gives a cubic polynomial
-corresponding to a point in $\AA^{20}$. 
+corresponding to a point in $\PP^{19}$. 
 
 \begin{m2}
   bbC.pointProperties()
 \end{m2}
 
-We now want to stratify this parameter space by singularity type. For this we need to compute the singular locus of the cubic surface at each point of $\AA^2$.
+We now want to stratify this parameter space by singularity type. For this we need to compute the singular locus of the cubic surface at each point of $\PP^{19}$.
 
 \begin{m2}
 singularLocusAt = point -> ideal jacobian cubicAt point
@@ -361,17 +361,19 @@ the space of cubic surfaces by the degree of the singular locus.
 
 In a {\tt FiniteFieldExperiment} we take a {\tt BlackBoxParameterSpace} and evaluate some of its {\tt pointProperties} at a large number of random points. If we work over a finite field, we will find points on interesting strata with a small but positive probability. Furthermore the number of points found in each stratum gives heuristic information about the codimension of each stratum.
 
-Let's first explain the heuristic reasoning used in this package. Let's assume we work over a finite field $\FF_q$ with $q$ elements. If $f \in \FF_q[x_1,\dots,x_n]$ is a polynomial, and $x \in \AA^n$ is a point, then
+Let's first explain the heuristic reasoning used in this package. Let's assume we work over a finite field $\FF_q$ with $q$ elements. If $f \in \FF_q[x_1,\dots,x_{n+1}]$ is a polynomial, and $x \in \AA^{n+1}$ is a point, then
 \[
-	f(x) \in \FF_q
+	f(x) \in \FF_q.
 \]
 For most polynomials each of the $q$ possible values of $f(P)$ occurs with approximately the same probability. Therefore 
 \[
 	f(x) = 0
 \]
-occurs with probability about $1/q$, so we expect about $q^{n-1}$ points on a hypersurface in $\AA^n$, and this value does not depend on the degree of the hypersurface. A much more sophisticated analysis of the situation is described by the Weil-Conjectures, which we now recall, following \cite[Appendix C]{Hartshorne}.
+occurs with probability about $1/q$, so we expect about $q^{n}$ points on a hypersurface (of dimension $n$) in $\AA^{n+1}$, and this value does not depend on the degree of the hypersurface.
 
-Let $X$ be a projective variety of dimension $n$ defined over $\ZZ$. Assume $X$ is smooth over $\FF_q$, $q$ a prime number. It is then automatically smooth over $\CC$. 
+A much more sophisticated analysis of the situation is described by the Weil-Conjectures, which we now recall, following \cite[Appendix C]{Hartshorne}.
+
+Let $X \subset \PP^n$ be an irreducible projective variety of dimension $m$ defined over $\ZZ$. Assume $X$ is smooth over $\FF_q$, $q$ a prime number. It is then automatically smooth over $\CC$. 
 
 Let now
 \[
@@ -387,48 +389,47 @@ is called the {\sl zeta function} of $X$. Notice that
 \]
 i.e. the coefficient of $t$ in $Z(t)$ is the number of rational points of $X$ over $\FF_q$.  The Weil conjectures imply that there are polynomials $P_i \in \ZZ[t]$ such that
 \begin{enumerate}
-\item $Z(t) = \frac{P_1(t) P_3(t) \cdots P_{2n-1}(t)}{P_0(t)P_2(t) \cdots P_{2n}(t)}$
+\item $Z(t) = \frac{P_1(t) P_3(t) \cdots P_{2m-1}(t)}{P_0(t)P_2(t) \cdots P_{2m}(t)}$
 \item $P_0(t) = 1 - t$
-\item $P_{2n}(t) = 1 - q^n t$
+\item $P_{2m}(t) = 1 - q^m t$
 \item $P_{i}(t) = \prod (1 - \alpha_{ij} t)$ with $\alpha_{ij}$ algebraic integers with $|\alpha_{ij}| = \sqrt{q^i}$.
 \item $\deg P_{i} = B_i = h^i(X_{\CC},\ZZ)$, where $X_\CC$ is the variety defined by the equations of $X$ over $\CC$.
 \end{enumerate}
 
 From this information we can compute the linear term of the zeta function as
 \[
-	Z(t) = 1 + \left( 1 + q^n+ \sum_{\text{$i$ even}} \alpha_{ij} - \sum_{\text{$i$ odd}} \alpha_{ij} \right) t + \dots
+	Z(t) = 1 + \left( 1 + q^m + \sum_{\text{$i$ even}} \alpha_{ij} - \sum_{\text{$i$ odd}} \alpha_{ij} \right) t + \dots
 \]
 Now observe that
 \[
 	\left| \sum_{\text{$i$ even}} \alpha_{ij} - \sum_{\text{$i$ odd}} \alpha_{ij} \right| 
 	\le \sum_{\text{$i$ even}} |\alpha_{ij}| + \sum_{\text{$i$ odd}} |\alpha_{ij}|  
-	= \sum_{i=1}^{2n-1} B_i \sqrt{q^i}
+	= \sum_{i=1}^{2m-1} B_i \sqrt{q^i}
 \]
 and therefore
 \[
-	| N_1 - (1+q^n) | \le \sum_{i=1}^{2n-1} B_i \sqrt{q^i}
+	| N_1 - (1+q^m) | \le \sum_{i=1}^{2m-1} B_i \sqrt{q^i}
 \]
-Notice that if one thinks of $N_1$ as a random variable and of the $\alpha_{ij}$ as uniformly distributed on the circle with radius $\sqrt{q^i}$ then the distribution of $N_1$ would have expected value
+Heuristically, if the $\alpha_{ij}$ were uniformly distributed on the circle with radius $\sqrt{q^i}$ then the distribution of $N_1$ (over all smooth irreducible projective varieties of dimension $m$) would have expected value
 \[
-	\mu(N_1) = 1+ q^n
+	\mu(N_1) = 1+ q^m
 \]
 and standard deviation
 \[
-	\sigma(N_1) = \sqrt{\sum_{i=1}^{2n-1} B_i q^i}.
+	\sigma(N_1) = \sqrt{\sum_{i=1}^{2m-1} B_i q^i}.
 \]
 
-
-So if $Y \subset \AA^n$ is an irreducible component of a stratum, then in a first order approximation we have
+So if $X \subset \PP^n$ is an irreducible smooth variety, then in a first order approximation we have
 \[
-	|Y(\FF_q) | \approx q^{\dim Y}.
+	|X(\FF_q) | \approx q^{\dim X}.
 \]
-If we choose random points $x \in \AA^n$ with equal distribution, then the probability that such a point lies on $Y$ is approximately
+If we choose random points $x \in \PP^n$ with equal distribution, then the probability that such a point lies on $X$ is approximately (up to first order in $q$)
 \[
-	P(Y) = \frac{|Y(\FF_q)|}{q^n} \approx q^{\dim Y - n} = q^{-\codim Y}.
+	P(x \in X) = \frac{|X(\FF_q)|}{q^n} \approx q^{\dim X - n} = q^{-\codim X}.
 \]
 Taking logarithms we get
 \[
-	- \log_q P(Y) \approx \codim Y.
+	- \log_q P(x \in X) \approx \codim X.
 \]
 
 %% \begin{itemize}
