@@ -32,6 +32,9 @@ or read the online help with
 
 Todo:
 
+* January 2021
+    - break up packages into multiple files.
+
 - DONE: BlackBoxIdeals: rename to BlackBoxParameterSpaces.
 - Chris: shorten the tex file to only the parameter space version.
 - Chris: add in the cubic example using the \begin{m2}\end{m2}
@@ -43,3 +46,5 @@ Todo:
 - these are the packages to get ready for distribution with M2
    BlackBoxParameterSpaces, FiniteFieldExperiments, M2Logging, IntervalPkg.
 - fix bugs and interface for BlackBoxParameterSpaces
+
+    
