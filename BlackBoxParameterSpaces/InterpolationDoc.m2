@@ -1129,3 +1129,54 @@ doc ///
           Notice that "maxdegree" is now 2 for both interpolated components.
 ///
 
+doc ///
+   Key
+        interpolate
+   Headline
+        find polynomials containing a list of jets
+   Usage   
+        I = interpolate(mons,jetList)
+   Inputs  
+        mons:Matrix 
+            of monomials
+        jetList:List
+            of jets    
+   Description
+        Text
+            Finds those linear combinations of monomials that vanish
+            on the given list of jets.
+               
+            Lets consider a black box that describes
+            a line and a plane intersecting at the origin:    
+        Example      
+            K = ZZ/5
+            R = K[x,y,z]
+            I = ideal (x*z,y*z)
+            bb = blackBoxIdeal I;       
+        Text
+            \break 
+            Consider a point on the line:
+        Example
+            point = matrix{{0,0,1_K}}
+        Text
+            \break
+            and a jet of lenght 3 starting at this point and
+            lying on the variety described by the black box ideal
+        Example
+            j = bb.jetAt(point,4)     
+        Text
+            \break
+            Now find linear polynomials containing this jet:
+        Example
+            interpolate(matrix{{x,y,z}},{j})   
+        Text
+            Notice that polynomials containig the line are found.
+            The surface is invisible to the interpolation.   
+   Caveat
+       This function does not estimate the lenght of the jet needed to
+       get a useful answer. (The jet should be at least as long as the
+       number of monomials). This is done by @TO interpolateAt @. 
+   SeeAlso
+       interpolateAt
+///
+

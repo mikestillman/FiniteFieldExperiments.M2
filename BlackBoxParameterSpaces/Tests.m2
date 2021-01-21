@@ -335,3 +335,19 @@ TEST ///
     assert(length jet == 0)
 ///
 
+----------------------------------------------------------------------
+-- Test of Jets ------------------------------------------------------
+----------------------------------------------------------------------
+
+TEST /// 
+    -- test 'length(Jet)'
+    Fp = ZZ/101
+    R = Fp[x,y]
+    I = ideal(x^2-y^2+x^3)
+    bbI = blackBoxIdeal I;
+    point = matrix{{3,6_Fp}}
+    bbI.isZeroAt(point)
+    j = bbI.jetAt(point,3)
+    assert(length j == 3)
+///
+
