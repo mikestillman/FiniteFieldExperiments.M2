@@ -351,3 +351,110 @@ TEST ///
     assert(length j == 3)
 ///
 
+testEpsRing = ()->
+(
+    rng := getEpsRing(ZZ,1);
+    eps:= (gens rng)#0;
+    assert (1_rng+eps_rng + eps_rng*eps_rng == 1_rng+eps_rng );
+
+    rng1 := getEpsRing(ZZ,1);
+ 
+    rng2 := getEpsRing(ZZ,1);
+
+    assert(rng1===rng2 );
+);
+
+
+TEST ///
+    debug BlackBoxParameterSpaces
+    testEpsRing();
+///
+
+TEST ///
+  -- test for bug that  valuesAt(jet) is non zero (jet was incorrectly in a ring with higher precision than required)
+
+    kk = QQ
+    R = QQ[x,y]
+    I = ideal (x*y)
+
+    origin = matrix{{0,0_kk}}
+    p1     = matrix{{1,0_kk}}
+
+    myValuesAt = (p) -> (  return gens sub(I,p);  );
+
+
+    bb = blackBoxIdealFromEvaluation(R, myValuesAt)
+
+    jetStats = bb.jetStatsAt(origin,2,10)
+
+    jetsL1 = jetStats#"jetSets"#1
+    jetL1 = first jetsL1#"jets"
+    L1values =  bb.valuesAt(jetL1#"value")
+    assert (0 == L1values)
+    epsRng = ring L1values;
+    assert (epsRng#"epsPrecision"==1)
+    -- check that we are in R[eps]/eps^2 for precision 1 jet
+    assert (ideal epsRng == ideal (first gens last epsRng.baseRings)^2)
+
+    jetL2 = bb.jetAt(p1,2)
+    valuesL2 =  bb.valuesAt(jetL2#"value")
+    assert (0 == valuesL2)
+    epsRng = ring valuesL2;
+    assert (epsRng#"epsPrecision"==2)
+    -- check that we are in R[eps]/eps^3 for precision 2 jet
+    assert (ideal epsRng == ideal (first gens last epsRng.baseRings)^3)
+
+    jetL0 = bb.jetAt(p1,0)
+    assert (jetL0#"value" == sub(p1,ring jetL0#"value") )
+
+///
+
+TEST ///
+    -- restart 
+    -- loadPackage "BlackBoxParameterSpaces"
+    debug BlackBoxParameterSpaces --otherwise we have no 'compatible()'
+    K = QQ;
+    R = K[x,y];
+    bbI = new BlackBoxIdeal from ideal x*y;
+    
+    
+    point = matrix{{0_QQ, 0_QQ}};
+    point2 = matrix{{0, 1_K}};
+    
+    jet =  bbI.jetAt(point,1)
+    
+    --locus jet
+    jet2 =  bbI.jetAt(point,1)   
+    
+    compatible(jet,jet2) 
+    
+    jetSet = new JetSet from jet
+    
+    --locus jetSet      
+    compatible(jetSet,jetSet)    
+    
+    addElement(jetSet,jet2)
+    
+    joinJetSets(jetSet,jetSet);    
+    
+    jet3 := bbI.jetAt(point2,1)
+    
+    try (addElement(jetSet,jet3)) then (error ("adding incompatible jet should fail"))  else()
+    
+    -- unique: not im    
+///
+
+TEST ///
+  -- test interpolateComponents
+  kk := ZZ
+  R := ZZ[x,y]
+  I:= ideal (x*y*(x^2-y^2))
+  bb = new BlackBoxIdeal from I
+  point1 = matrix {{1,1_ZZ}}
+  point2 = matrix {{1,0_ZZ}}
+  pointList = {point1,point2}
+  maxDegree := 4
+  bb.interpolateComponentsAt(pointList, maxDegree);
+///
+ 
+

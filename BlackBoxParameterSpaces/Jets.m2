@@ -113,26 +113,6 @@ getEpsRing(Ring, ZZ) := Ring => (coeffring, epsDim)->
     return getEpsRingFunction(coeffring, epsDim);
 )
 
-
-testEpsRing = ()->
-(
-    rng := getEpsRing(ZZ,1);
-    eps:= (gens rng)#0;
-    assert (1_rng+eps_rng + eps_rng*eps_rng == 1_rng+eps_rng );
-
-    rng1 := getEpsRing(ZZ,1);
- 
-    rng2 := getEpsRing(ZZ,1);
-
-    assert(rng1===rng2 );
-);
-
-
-TEST ///
-    debug BlackBoxParameterSpaces
-    testEpsRing();
-///
-
 -- question: what is a (succeeded) jet of length 1 at a singular point??
 
 
@@ -509,43 +489,214 @@ basicJetAtCalculator = ()->
     return jetAtCalculator;    
 )
 
+-- how to hide compatible?
+compatible = method();
 
-TEST ///
-  -- test for bug that  valuesAt(jet) is non zero (jet was incorrectly in a ring with higher precision than required)
+compatible (Jet,Jet) := Boolean => (jet1, jet2 )->
+(    
+    if  ( jet1#"parent"===jet2#"parent" and 
+          jet1#"point" ===jet2#"point"      ) then
+         (
+            return true;
+         );
+         return false;        
+);
 
-    kk = QQ
-    R = QQ[x,y]
-    I = ideal (x*y)
+--------------------------------------------------
+-- Testing smoothness ----------------------------
+--------------------------------------------------
 
-    origin = matrix{{0,0_kk}}
-    p1     = matrix{{1,0_kk}}
+SmoothnessTester = new Type of  HashTable;
 
-    myValuesAt = (p) -> (  return gens sub(I,p);  );
+new SmoothnessTester from Thing := ( E, thing) -> 
+(
+    error "creating SmoothnessTester from  type " | toString E | " not implemented ";
+);
+
+basicSmoothnessTester = method();
+
+basicSmoothnessTester (JetAtCalculator) := SmoothnessTester => ( jetAtCalculator) -> 
+(
+ 
+    localSmoothnessTester := new MutableHashTable;
+    --
+    --
+    --
+    localSmoothnessTester#"isCertainlySingularAt" = method();
+    localSmoothnessTester#"isCertainlySingularAt"( BlackBoxParameterSpace, Matrix, ZZ, ZZ) := MutableHashTable => ( blackBox,  point, jetLength, numTrials ) ->
+    (
+        if ( numTrials<1 ) then error "isCertainlySingularAt: expected numTrials >=1 ";
+        
+        for i in 1..numTrials do
+        (
+            jetOrError := catch jetAtCalculator.jetAt( blackBox,  point, jetLength);
+            if isDerivedFrom(jetOrError,SingularPointException) then 
+            (
+                return true;
+            );
+            if not isDerivedFrom(jetOrError, Jet) then 
+            (
+                throw jetOrError; -- it is a different error 
+            );
+        );
+        return false;
+    );
+    
+    localSmoothnessTester#"isCertainlySingularAt"( BlackBoxParameterSpace, Matrix, HashTable) := MutableHashTable => ( blackBox,  point, options ) ->
+    (
+        return localSmoothnessTester.isCertainlySingularAt(blackBox, point, options.precision, options.numTrials);
+    );    
+    
+    localSmoothnessTester.isCertainlySingularAt = localSmoothnessTester#"isCertainlySingularAt";
+   
+   
+   
+    localSmoothnessTester#"isProbablySmoothAt"  = method();
 
 
-    bb = blackBoxIdealFromEvaluation(R, myValuesAt)
+    localSmoothnessTester#"isProbablySmoothAt" ( BlackBoxParameterSpace, Matrix, ZZ, ZZ) := MutableHashTable  =>
+        ( blackBox,  point, jetLength, numTrials ) ->
+    (
+            return not localSmoothnessTester.isCertainlySingularAt( blackBox,  point,  jetLength, numTrials );
+    );
+    
+    
+    localSmoothnessTester#"isProbablySmoothAt"( BlackBoxParameterSpace, Matrix, HashTable) := MutableHashTable => ( blackBox,  point, options ) ->
+    (
+        return not localSmoothnessTester.isCertainlySingularAt(blackBox, point, options.precision, options.numTrials);
+    );
+    
+    localSmoothnessTester.isProbablySmoothAt =  localSmoothnessTester#"isProbablySmoothAt";
+    
+    
+    localSmoothnessTester#"setJetAtCalculator" = (jetAtCalculatorP)->
+    (
+        jetAtCalculator = jetAtCalculatorP;
+    );
+    
+    localSmoothnessTester.setJetAtCalculator = localSmoothnessTester#"setJetAtCalculator";    
+    
+    localSmoothnessTester = newClass(SmoothnessTester, localSmoothnessTester);
+    
+    
+  
+    return localSmoothnessTester;
+);
 
-    jetStats = bb.jetStatsAt(origin,2,10)
+--------------------------------------------------
+-- Projections? MapHelper ------------------------
+--------------------------------------------------
 
-    jetsL1 = jetStats#"jetSets"#1
-    jetL1 = first jetsL1#"jets"
-    L1values =  bb.valuesAt(jetL1#"value")
-    assert (0 == L1values)
-    epsRng = ring L1values;
-    assert (epsRng#"epsPrecision"==1)
-    -- check that we are in R[eps]/eps^2 for precision 1 jet
-    assert (ideal epsRng == ideal (first gens last epsRng.baseRings)^2)
+-- Type MapHelper contains a matrix and a function
+-- to evaluate this matrix on a point
+-- This is for example used when projecting onto a
+-- subspace (i.e elimination of variables)
+--
+MapHelper = new Type of HashTable;
 
-    jetL2 = bb.jetAt(p1,2)
-    valuesL2 =  bb.valuesAt(jetL2#"value")
-    assert (0 == valuesL2)
-    epsRng = ring valuesL2;
-    assert (epsRng#"epsPrecision"==2)
-    -- check that we are in R[eps]/eps^3 for precision 2 jet
-    assert (ideal epsRng == ideal (first gens last epsRng.baseRings)^3)
+--
+--
+--
+createMapHelper = (mapMatrix, imageRing) -> 
+(
+    mapData := new MutableHashTable;
+    
+    mapData#"imageRing" = imageRing;
+    mapData#"matrix" = mapMatrix;
+    
+    mapData#"valueAt" =  method();    
+    mapData#"valueAt" (Matrix) := Matrix => (point)->
+    (
+        return sub(mapMatrix,point);
+    );
+   
+    mapData#"valueAtJet" = method();
+    mapData#"valueAtJet" (Jet) := Jet => (jet) -> 
+    (
+        return jetObject(jet#"parent", jet#"point", (mapData#"valueAt")(jet#"value"), jet#"jetLength");                  
+    );
+   
+    return new MapHelper from mapData
+);
 
-    jetL0 = bb.jetAt(p1,0)
-    assert (jetL0#"value" == sub(p1,ring jetL0#"value") )
+new MapHelper from Matrix := (XXX, mapMatrix) -> 
+(
+    -- das hier ist irgendwie alles Quatsch...
+    --sourceRing := ring mapMatrix;
+    --K := coefficientRing sourceRing;
+    --m := rank source mapMatrix;
+    --xxx := symbol xxx;    -- todo: get symbol in user space?
+    --imageRing := K[xxx_1..xxx_m];
+    imageRing := null; 
+    return createMapHelper(mapMatrix, imageRing);
+);
 
-///
+--------------------------------------------------
+-- JetSet ----------------------------------------
+--------------------------------------------------
+new JetSet from Thing := ( E, thing) -> 
+(
+    error "creating JetSet from  type " | toString E | " not implemented or not possible ";
+);
 
+
+new JetSet from Jet := ( E, thing) -> 
+(
+   mht := new MutableHashTable;
+   
+   mht#"jets" = new List from {thing};
+   mht#"point" = thing#"point";
+   return mht;
+);
+
+net (JetSet) := Net => (jetSet)->
+(
+    result := net "JetSet{ point: " |net jetSet#"point" | net ", jets{.."| net size jetSet | net "..}}";
+    return result;
+);
+
+compatible (JetSet,JetSet) := Boolean => (jetSet1, jetSet2 )->
+(    
+    if (0== size jetSet1 or 0== size jetSet2 ) then   return true;   
+    return compatible(  jetSet1#"jets"#0,   jetSet2#"jets"#0);
+);
+
+size (JetSet) := ZZ =>(jetset)->
+(
+    return #(jetset#"jets");
+)
+
+
+-- probablySameComponent; certainlyDifferentComponent
+
+addElement = method();
+
+addElement (JetSet,Jet) := JetSet => (jetSet, jet)->
+(
+    if ( size jetSet===0 or
+         compatible(jetSet#"jets"#0, jet) 
+       ) then
+        (
+            jetSet#"jets" = append(jetSet#"jets",jet);            
+            return jetSet;
+        );
+    error ("JetSet and Jet are probably incompatible (either they do not start at the same point or do not belong to the same black box)");
+)
+
+joinJetSets = method();
+
+joinJetSets (JetSet,JetSet) := JetSet => (jetSet1, jetSet2 )->
+(
+    if (compatible (jetSet1, jetSet2)) then 
+    (
+        result := new JetSet;
+        result#"jets" = unique join (jetSet1#"jets",jetSet2#"jets");
+        return result;
+    )
+    else
+    (
+        error ("jet sets probably not compatible");
+    );
+);
+
+ 
