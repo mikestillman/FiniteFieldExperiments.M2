@@ -544,7 +544,7 @@ basicSmoothnessTester (JetAtCalculator) := SmoothnessTester => ( jetAtCalculator
     
     localSmoothnessTester#"isCertainlySingularAt"( BlackBoxParameterSpace, Matrix, HashTable) := MutableHashTable => ( blackBox,  point, options ) ->
     (
-        return localSmoothnessTester.isCertainlySingularAt(blackBox, point, options.precision, options.numTrials);
+        return localSmoothnessTester.isCertainlySingularAt(blackBox, point, options.Precision, options.NumTrials);
     );    
     
     localSmoothnessTester.isCertainlySingularAt = localSmoothnessTester#"isCertainlySingularAt";
@@ -563,7 +563,7 @@ basicSmoothnessTester (JetAtCalculator) := SmoothnessTester => ( jetAtCalculator
     
     localSmoothnessTester#"isProbablySmoothAt"( BlackBoxParameterSpace, Matrix, HashTable) := MutableHashTable => ( blackBox,  point, options ) ->
     (
-        return not localSmoothnessTester.isCertainlySingularAt(blackBox, point, options.precision, options.numTrials);
+        return not localSmoothnessTester.isCertainlySingularAt(blackBox, point, options.Precision, options.NumTrials);
     );
     
     localSmoothnessTester.isProbablySmoothAt =  localSmoothnessTester#"isProbablySmoothAt";

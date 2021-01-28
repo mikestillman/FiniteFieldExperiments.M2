@@ -566,3 +566,20 @@ testBlackBoxIdealFromEvaluation = ()->
     assert( not evaluation.unknownIsValid (  y ) );
 
 );
+
+----------------------
+-- Test of Utils -----
+----------------------
+TEST ///
+    -- test assertEx
+  
+    assertEx(true, "");
+  
+    try( assertEx(false,"errorMsg") ) then 
+    (
+        assert(false) 
+    )    else
+    (
+        print "test assertEx: error triggered as expected."
+    )
+///

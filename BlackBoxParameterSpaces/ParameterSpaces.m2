@@ -368,8 +368,8 @@ blackBoxParameterSpaceInternal( Type, ZZ, Ring  ) := HashTable => ( resultType, 
     
     
     singularTestOptions := new MutableHashTable;
-    singularTestOptions.precision = 10;
-    singularTestOptions.numTrials = 2;
+    singularTestOptions.Precision = 10;
+    singularTestOptions.NumTrials = 2;
 
    
     -- checks the consistency of the point with the black box 
@@ -1024,8 +1024,8 @@ blackBoxParameterSpaceInternal( Type, ZZ, Ring  ) := HashTable => ( resultType, 
         if (prec <0) then error "setSingularityTestOptions: expected prec >= 0";
         if (numTrials <=0) then error "setSingularityTestOptions: expected numTrials > 0";
 
-        singularTestOptions.precision = prec;
-        singularTestOptions.numTrials = numTrials;
+        singularTestOptions.Precision = prec;
+        singularTestOptions.NumTrials = numTrials;
         updateSingularityTest();
 
     );
