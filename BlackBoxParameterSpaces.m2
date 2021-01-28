@@ -615,7 +615,7 @@ setBlackBoxLogLevel = (level)->
 -- fragileHT.valuesAt -- error: key not found in hash table
 -- 
 
-getPropertySymbols := method ();
+getPropertySymbols = method ();
 
 getPropertySymbols(String) := List => (propertyName)->
 (
@@ -629,7 +629,6 @@ getPropertySymbols(String) := List => (propertyName)->
     );
     return propertySymbols;
 );
-
 
 
 isDerivedFrom = method();
