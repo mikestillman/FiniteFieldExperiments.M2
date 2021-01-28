@@ -457,4 +457,112 @@ TEST ///
   bb.interpolateComponentsAt(pointList, maxDegree);
 ///
  
+---------------------------------
+-- test of BlackBoxIdeal's ------
+---------------------------------
 
+testBlackBoxIdeal=()->
+(
+    x  := null;
+    x  = symbol x;
+    rng := ZZ/7[x];
+    coeffRng := coefficientRing rng;
+    x = (gens rng)#0;
+
+    RP := ZZ/7[x];
+    IFP := ideal { 3*x^2+1, 5*x-1 };        
+    IFPBlackBox := blackBoxIdeal( IFP );
+    point := matrix {{3}};
+    rng13 := ZZ/13;
+ 
+    assert( IFPBlackBox.jacobian== jacobian IFP);
+
+    jac := null;
+    point = matrix {{3}};
+    try (   jac= IFPBlackBox.jacobianAt(point); ) then 
+    (
+        error("testblackBoxIdeal: jacobianAt should fail due the coefficient ring of the point matrix does not match the ideal coefficient ring and also the ideal coefficients are not integers ");
+    )  
+    else ();
+    point = sub( point, coeffRng ) ;
+    try {    jac= IFPBlackBox.jacobianAt(point); } 
+    else
+    (
+        error("testblackBoxIdeal: jacobianAt should succeed  due the coefficient ring of the point matrix matches the ideal coefficient ring ");
+    );  
+    IFPBlackBox.ring;
+    IFPBlackBox.valuesAt(point) ;
+    assert(   IFPBlackBox.isZeroAt( point ) );
+    assert( IFPBlackBox.jacobianAt(point)==sub( jacobian IFP,point) );
+    assert( IFPBlackBox.valuesAt(point)== gens sub(  IFP, point ) );
+)
+
+TEST ///
+   -- test extracting ideal from evaluation
+    x  = symbol x;
+    y  = symbol y;
+
+    RP := ZZ/7[x,y];
+    IFP := ideal ( 3*x^2+1, 5*x-1*y );      
+
+    rank source gens IFP;
+  
+    evaluation := (point)->
+    (
+        return gens sub(IFP, point);
+    );  
+    evalBlackBox := blackBoxIdealFromEvaluation ( RP, evaluation );
+    
+    I = ideal evalBlackBox;
+    
+    assert((gens I)% IFP==0 )
+    assert((gens IFP)% I==0 )
+    
+///
+
+
+testBlackBoxIdealFromEvaluation = ()->
+(
+    x  := null;
+    x  = symbol x;
+    rng := ZZ/7[x];
+    coeffRng := coefficientRing rng;
+    x = (gens rng)#0;
+
+
+    RP := ZZ/7[x];
+    IFP := ideal ( 3*x^2+1, 5*x-1 );      
+
+    rank source gens IFP;
+  
+    evaluation := blackBoxIdeal( IFP );
+    --evaluation := basicBlackBox();
+  
+    -- deprecated:
+    -- evalBlackBox := blackBoxIdealFromEvaluation ( # (gens evaluation.ring), coefficientRing evaluation.ring, evaluation.valuesAt );
+    evalBlackBox := blackBoxIdealFromEvaluation ( RP, evaluation.valuesAt );
+
+    point := matrix {{3_(ZZ/7)}} ;
+    assert( evaluation.isZeroAt( point ) );
+    assert( evaluation.valuesAt( point ) == evalBlackBox.valuesAt( point ) );
+    assert( evaluation.jacobianAt( point ) == evalBlackBox.jacobianAt( point ) );
+
+    assert( evaluation.numVariables ==evalBlackBox.numVariables );
+
+    outerPoint := matrix {{2_(ZZ/7)}} ;
+
+    assert( evaluation.valuesAt( outerPoint ) == evalBlackBox.valuesAt( outerPoint ) );
+
+    assert( not evaluation.isZeroAt( outerPoint ) );
+
+    assert( evaluation.coefficientRing === coeffRng);
+
+    assert( evaluation.unknownIsValid ( ( gens ring IFP )#0 ));
+
+    y  := null;    y  = symbol y;
+    rngy := ZZ/7[y];
+    y = (gens rng)#0;
+
+    assert( not evaluation.unknownIsValid (  y ) );
+
+);
