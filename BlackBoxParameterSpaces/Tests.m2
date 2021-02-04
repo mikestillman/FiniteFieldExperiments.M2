@@ -1,41 +1,63 @@
----------------------------------------------------------------------
-
-
----------------------------------------------------------------------
+----------------------
+-- Test of Utils -----
+----------------------
 TEST ///
     debug BlackBoxParameterSpaces
-    idealBlackBoxesProtect()
+    testGuessAcceptedParameterNumber()
+///
+
+TEST ///
+    debug BlackBoxParameterSpaces
+    testDeduceNumGenerators()
+///
+
+TEST ///
+    debug BlackBoxParameterSpaces
+    testDeduceJacobianAt()
+///
+
+TEST ///
+    -- test assertEx
+  
+    assertEx(true, "");
+  
+    try( assertEx(false,"errorMsg") ) then 
+    (
+        assert(false) 
+    )    else
+    (
+        print "test assertEx: error triggered as expected."
+    )
+///
+
+TEST ///
+    debug BlackBoxParameterSpaces
     testClearCoeffDenominators()
 ///
 
 TEST ///
     debug BlackBoxParameterSpaces
-    idealBlackBoxesProtect()
     testNestedRingCoeffsLCMDenominator()
 ///
 
 TEST ///
     debug BlackBoxParameterSpaces
-    idealBlackBoxesProtect()
     testTensoredClearCoeffDenominators()
 ///
 
 TEST ///
     debug BlackBoxParameterSpaces
-    idealBlackBoxesProtect()
     testBlackBoxIdeal()
 ///
 
 TEST ///
     debug BlackBoxParameterSpaces
-    idealBlackBoxesProtect()
     testBlackBoxIdealFromEvaluation()
 ///
 
 TEST ///
 
     debug BlackBoxParameterSpaces
-    idealBlackBoxesProtect()
 
     R = ZZ[x_0..x_3]
 
@@ -191,7 +213,6 @@ TEST ///
 
 TEST  /// 
     debug BlackBoxParameterSpaces
-    idealBlackBoxesProtect()
 
     -- bblog is not defined... why ?
 
@@ -567,19 +588,167 @@ testBlackBoxIdealFromEvaluation = ()->
 
 );
 
-----------------------
--- Test of Utils -----
-----------------------
+--------------------------------
+-- Tests: Interpolation --------
+--------------------------------
+
 TEST ///
-    -- test assertEx
-  
-    assertEx(true, "");
-  
-    try( assertEx(false,"errorMsg") ) then 
-    (
-        assert(false) 
-    )    else
-    (
-        print "test assertEx: error triggered as expected."
-    )
+    R = ZZ[x,y]
+    monomialMaxDegree = 4;
+    mons = matrix {flatten apply(monomialMaxDegree+1, currentDegree->flatten entries basis(currentDegree,R))};
+    assert (rank source mons == monomialBasisSize(4,R));
+   
 ///
+
+TEST ///
+    -- loadPackage "BlackBoxParameterSpaces"
+    R = ZZ[x,y]
+    I = ideal (x*y)
+    bb = new BlackBoxIdeal from I
+    p = matrix {{1,0_QQ}}
+    jetset = new JetSet from bb.jetAt(p,1)
+    II = createInterpolatedComponent(I, 1, jetset, bb)
+    ideal II 
+///
+
+TEST /// 
+    -- bug: a component name is used again after renaming.
+    -- fix: always increase nextComponentId by one. 
+    -- loadPackage "BlackBoxParameterSpaces"
+    errorDepth=2
+    K = ZZ/11;
+    R = K[x,y]
+    I = ideal (x-y^2)*x;
+    bbI = new BlackBoxIdeal from I;
+    p1 = matrix {{0,1_K}}
+    p2 = matrix {{1,1_K}}
+    c1 = bbI.interpolateComponentAt(p1)
+    c1Name = c1#"name"()
+    bbI.renameInterpolatedComponent(c1Name, "renamedComponent")
+    c2 = bbI.interpolateComponentAt(p2)
+    c2Name =  c2#"name"()
+    assert(c1Name != c2Name)
+    
+///
+
+TEST ///
+    -- bug: jet length too short 
+    -- loadPackage "BlackBoxParameterSpaces"
+    kk = ZZ
+    R = kk[x,y]
+    I  = ideal (x*y*(x^2-y^2)*(y^4-3*x-7))
+    bb = new BlackBoxIdeal from I; 
+    
+    p3 = matrix {{3,2_kk}}
+    origin = matrix {{0, 0_kk}}
+    singularPoint  = matrix{{0,0_kk}}
+    bb.valuesAt p3
+    jlh = basicJetLengthHeuristic(bb.interpolator);    
+    maxDegree = 4;  
+    mons = matrix {flatten apply(maxDegree+1, currentDegree->flatten entries basis(currentDegree,bb.ring))};
+    
+    jetLength = jlh.interpolationTargetJetLength(maxDegree)
+    assert (jetLength >= rank source mons +10);
+    
+    pointList = {p1,singularPoint,p2,p3}
+    pointList = {p1,p2,p3}
+    pointList = {p3}
+    maxDegree=1
+    forcedInterpolationPrecision = 11
+    iiList1 =  bb.interpolateComponentsAt(pointList,maxDegree)
+    apply(iiList1, ic-> assert(1 == ic#"maxDegree"))
+    maxDegree = 2
+    iiList2 = bb.interpolateComponentsAt(pointList,maxDegree)   
+    maxDegree=1
+    iiList2b = bb.interpolateComponentsAt(pointList,1)
+    apply(iiList2b, ic-> assert(2 == ic#"maxDegree"))
+    
+    bb.resetInterpolation()
+    maxDegree = 2
+    iiList2b = bb.interpolateComponentsAt(pointList,maxDegree)
+    -- test zu lang !!
+    --maxDegree = 5
+    --bb.interpolateComponentsAt(pointList,maxDegree)
+    --maxDegree = 6
+    --bb.interpolateComponentsAt(pointList,maxDegree) 
+    --bb.resetInterpolation()
+    --maxDegree = 4
+    --bb.interpolateComponentsAt(pointList,maxDegree) --ok
+    --maxDegree = 5
+///
+
+
+TEST ///
+   -- test for bug where onComponentPrecision is not respected (a longer jet was used instead of a short one)
+    -- restart
+    -- loadPackage "BlackBoxParameterSpaces"
+ 
+    setRandomSeed(42); -- ensure reproducibility in test
+    K = ZZ/7;
+    R = K[x,y,z,w] ;     
+    line = ideal (x,y);
+    conic = ideal (w,x^2+y^2-z^2);
+    bbI = blackBoxIdeal intersect(line,conic);
+    assert (bbI.onComponentPrecision()==2); --default onComponent precision
+    pointOnLine = matrix{{0,0,1,2_K}};
+    pointOnConic = matrix{{3,4,5,0_K}};
+    bbI.isZeroAt(pointOnLine);
+    bbI.isZeroAt(pointOnConic);
+    bbI.interpolateComponentAt(pointOnLine,1);
+    bbI.renameInterpolatedComponent("c1","line");
+    bbI.interpolateComponentAt(pointOnConic,1);
+    bbI.renameInterpolatedComponent("c2","conic");
+    pointOnLineAndPlane = matrix{{0,0,1,0_K}};
+    assert(bbI.isZeroAt(pointOnLineAndPlane));
+    compnames = bbI.interpolatedComponentNamesAt(pointOnLineAndPlane)    ;
+    assert(1 == #compnames);
+    bbI.setOnComponentPrecision(0);
+    -- now we should get both components:
+    compnames = bbI.interpolatedComponentNamesAt(pointOnLineAndPlane);
+    assert(2 == #compnames);
+    assert (null =!= position(compnames, name->name == "line"));
+    assert (null =!= position(compnames, name->name == "conic"));
+///
+
+
+TEST ///
+    -- bug: jet length too short (incorrect jet length heuristic)
+    -- loadPackage "BlackBoxParameterSpaces"
+    kk = QQ
+    R = kk[x,y]
+    I  = ideal (x*y*(x^2-y^2)*(y^4-3*x-7))
+    bb = new BlackBoxIdeal from I;
+    p1 = matrix {{1,1_kk}}
+    p2 = matrix {{1,0_kk}}
+    p3 = matrix {{3,2_kk}}
+    origin = matrix {{0, 0_kk}}
+    singularPoint  = matrix{{0,0_kk}}
+    pointList = {p1,singularPoint,p2,p3}
+    maxDegree = 1
+    iiList1 = bb.interpolateComponentsAt(pointList,maxDegree)
+    
+    
+    -- test zu lang!!!
+    --maxDegree = 3
+    --iiList3 = bb.interpolateComponentsAt(pointList,maxDegree) 
+    --assert(3 == #iiList3);
+    --bb.resetInterpolation()
+    --maxDegree = 4
+    --iiList4 = bb.interpolateComponentsAt(pointList,maxDegree)
+    --assert(3 == #iiList4)
+    
+    --c3 = bb.componentsAt(p3)
+    --assert (#c3 ==1)
+    
+    --c3 = first c3
+    --assert (1==#(flatten entries gens ideal  c3))
+    --assert (4==first flatten degrees ideal  c3)
+
+    -- dies geht natuerlich nur wenn man alle Punkte angibt)
+    --resultIdeal = product( apply( iiList4, ic->ideal ic))  
+    -- assert (gens radical resultIdeal%  radical I
+  
+///
+
+
+

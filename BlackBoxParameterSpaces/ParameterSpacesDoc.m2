@@ -1,3 +1,43 @@
+doc ///
+    Key
+        BlackBoxParameterSpaces
+    Headline
+          black boxes for implicitly given ideals
+    Description
+        Text
+            The BlackBoxes of this Package come in two flavors:
+            
+            1) @TO BlackBoxParameterSpace@
+            
+            This represents a family of algebraic objects over
+            an affine space K^n in a pointwise fashion. Together with 
+            the package FiniteFieldExperiments this can be
+            used to study the stratification of the  parameter
+            space K^n with respect to various properties of the algebraic
+            objects parametrized. For a quick start look at the
+            @TO "Singularities of cubic surfaces" @-tutorial.
+            
+            2) @TO BlackBoxIdeal@
+             
+            A BlackBoxIdeal is a special BlackBoxParameterSpace.
+            Here equations for a specific stratum of the
+            parameter space are known at least implicitly.
+            
+            Together with 
+            the package FiniteFieldExperiments this stratum can
+            then be studied much more precisely. For example
+            heuristic estimates on the number and codimension
+            of its reduced components can be obtained. If one
+            is lucky, even equations for the different components
+            can be found. For a quick start look at the 
+            @TO "Variety of Complexes" @-tutorial.
+
+    Caveat
+            The package is probably not threadsafe.
+         
+         
+///
+
  doc ///
     Key
         (blackBoxParameterSpace, ZZ, Ring)

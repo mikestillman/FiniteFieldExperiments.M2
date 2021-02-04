@@ -153,12 +153,6 @@ testDeduceNumGenerators = ()->
 );
 
 
-TEST ///
-    debug BlackBoxParameterSpaces
-    idealBlackBoxesProtect()
-    testDeduceNumGenerators()
-///
-
 
 -- dropDegreeInfo():
 -- 
@@ -278,12 +272,6 @@ testDeduceJacobianAt = ()->
     assert( computedJac == targetJac );
 );
 
-
-TEST ///
-    debug BlackBoxParameterSpaces
-    idealBlackBoxesProtect()
-    testDeduceJacobianAt()
-///
 
 pointProperties = method();
 
