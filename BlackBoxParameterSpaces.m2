@@ -643,5 +643,5 @@ restart
 installPackage "M2Logging"
 installPackage "IntervalPkg"
 installPackage"BlackBoxParameterSpaces"
-check BlackBoxParameterSpaces
+check "BlackBoxParameterSpaces"
 

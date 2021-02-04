@@ -428,18 +428,18 @@ TEST ///
     
     compatible(jet,jet2) 
     
-    jetSet = new JetSet from jet
+    js = new JetSet from jet
     
     --locus jetSet      
-    compatible(jetSet,jetSet)    
+    compatible(js,js)
     
-    addElement(jetSet,jet2)
+    addElement(js,jet2)
     
-    joinJetSets(jetSet,jetSet);    
+    joinJetSets(js,js);    
     
     jet3 := bbI.jetAt(point2,1)
     
-    try (addElement(jetSet,jet3)) then (error ("adding incompatible jet should fail"))  else()
+    try (addElement(js,jet3)) then (error ("adding incompatible jet should fail"))  else()
     
     -- unique: not im    
 ///

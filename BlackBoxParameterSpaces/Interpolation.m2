@@ -1633,16 +1633,14 @@ TEST ///
     bbI.renameInterpolatedComponent("c2","conic");
     pointOnLineAndPlane = matrix{{0,0,1,0_K}};
     assert(bbI.isZeroAt(pointOnLineAndPlane));
-    componentNames = bbI.interpolatedComponentNamesAt(pointOnLineAndPlane)    ;
-    assert(1 == #componentNames);
+    compnames = bbI.interpolatedComponentNamesAt(pointOnLineAndPlane)    ;
+    assert(1 == #compnames);
     bbI.setOnComponentPrecision(0);
     -- now we should get both components:
-    componentNames = bbI.interpolatedComponentNamesAt(pointOnLineAndPlane);
-    assert(2 == #componentNames);
-    assert (null =!= position(componentNames, name->name == "line"));
-    assert (null =!= position(componentNames, name->name == "conic"));
-    
-
+    compnames = bbI.interpolatedComponentNamesAt(pointOnLineAndPlane);
+    assert(2 == #compnames);
+    assert (null =!= position(compnames, name->name == "line"));
+    assert (null =!= position(compnames, name->name == "conic"));
 ///
 
 
