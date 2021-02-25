@@ -2,7 +2,7 @@
 -- reorder the export list to match location of functions in each file (at least for methods).
 -- reorder the doc to match this order
 -- if possible, reorder the tests too.
--- what about the debugging 
+-- what about the debugging statements?
 newPackage(
      "BlackBoxParameterSpaces",
      Version => "1.1", 
@@ -371,4 +371,5 @@ installPackage "M2Logging"
 installPackage "IntervalPkg"
 installPackage"BlackBoxParameterSpaces"
 check "BlackBoxParameterSpaces"
+viewHelp "BlackBoxParameterSpaces"
 

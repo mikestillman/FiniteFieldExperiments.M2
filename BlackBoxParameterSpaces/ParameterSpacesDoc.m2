@@ -1,42 +1,188 @@
+///
+    Key
+    Headline
+    Usage
+    Inputs
+    Outputs
+    Consequences
+        Item
+    Description
+        Text
+        Tree
+        Example
+    Caveat
+    SeeAlso
+    Subnodes
+///
+
 doc ///
     Key
         BlackBoxParameterSpaces
     Headline
-          black boxes for implicitly given ideals
+        representation of a unirational parameter space
     Description
         Text
-            The BlackBoxes of this Package come in two flavors:
+            A {\tt BlackBoxParameterSpace} represents a unirational
+            parameter space
+            \[
+                \mathbb{P}^n \to X
+            \]
+            together with its universal family. While the parameter
+            space $\mathbb{P}^n$ itself is trivial, the interesting
+            information lies in the objects that are parametrized by
+            this space. In this package these objects and their
+            properties are modelled by {\tt pointProperties}. Any
+            function that depends only on the coordinates of a point
+            $P \in \mathbb{P}^n$ can be a point property. Points are
+            represented by $1 \times (n+1)$ row vectors over a field,
+            while point properties are functions that take a matrix as
+            input and can have any type as output. We use the
+            convention that the name of a point property is of the
+            form {\tt xxxAt}, because it computes a property of the
+            parametrised object {\emph at} a given point. 
             
-            1) @TO BlackBoxParameterSpace@
+            This package can be used by itself, but it is really
+            designed to be used in conjunction with the package @TO
+            "FiniteFieldExperiments"@.  Point properties need to be
+            registered in a @TO BlackBoxParameterSpace@ if one wants
+            to use them later in a @TO "FiniteFieldExperiment"@.
             
-            This represents a family of algebraic objects over
-            an affine space K^n in a pointwise fashion. Together with 
-            the package FiniteFieldExperiments this can be
-            used to study the stratification of the  parameter
-            space K^n with respect to various properties of the algebraic
-            objects parametrized. For a quick start look at the
-            @TO "Singularities of cubic surfaces" @-tutorial.
-            
-            2) @TO BlackBoxIdeal@
-             
-            A BlackBoxIdeal is a special BlackBoxParameterSpace.
-            Here equations for a specific stratum of the
-            parameter space are known at least implicitly.
-            
-            Together with 
-            the package FiniteFieldExperiments this stratum can
-            then be studied much more precisely. For example
-            heuristic estimates on the number and codimension
-            of its reduced components can be obtained. If one
-            is lucky, even equations for the different components
-            can be found. For a quick start look at the 
-            @TO "Variety of Complexes" @-tutorial.
-
+            See @TO "New singularities of cubic surfaces"@ for an
+            introductory example describing the basic use of this
+            package.
     Caveat
             The package is probably not threadsafe.
-         
-         
 ///
+
+doc ///
+    Key
+        "New singularities of cubic surfaces"
+    Headline
+        an introductory example to the use of BlackBoxParameterSpace
+    Description
+        Text
+            After loading the package, we set the random seed, so that we always get the same results in this example.
+        Example
+            needsPackage "BlackBoxParameterSpaces"
+            setRandomSeed "8943758347"
+
+        Text
+            We work in characteristic $7$:
+            
+        Example
+              K = ZZ/7;
+        Text
+            
+            The coordinate ring of $\mathbb{P}^3$:
+            
+        Example
+              R = K[x,y,z,w];
+        Text
+            
+            
+            Let's now make a {\tt BlackBoxParameterSpace} describing the parameter space of homogenous cubic polynomials in $4$ variables. Since there are $20$ degree $3$ monomials in the coordinate ring on $\mathbb{P}^3$ this parameter space is $\mathbb{P}^{19}$: 
+            
+        Example
+              bbC = blackBoxParameterSpace(20,K);
+        Text
+            
+            
+            So far this black box is still empty
+            
+        Example
+              bbC.pointProperties()
+        Text
+            
+            We use the $20$ monomials of degree $3$ to make a cubic polynomial from a $1 \times 20$ matrix of coefficients:
+            
+        Example 
+              mons3 = super basis(3,R)
+              cubicAt = point -> matrix entries (point * transpose mons3)
+        Text
+            
+            As an example we look at the vector of coefficients that defines the Fermat-cubic:
+            
+        Example
+              fermatPoint = matrix {{1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1_K}}
+              cubicAt fermatPoint
+        Text
+            
+            We now register this function in the back box, so we can later use it in a 
+            {\tt FiniteFieldExperiment}.
+            
+        Example
+              bbC = bbC.registerPointProperty("cubicAt", cubicAt);
+        Text
+            
+            Now the black box is not empty anymore, but contains a point property that gives a cubic polynomial
+            corresponding to a point in $\mathbb{P}^{19}$. 
+            
+        Example
+              bbC.pointProperties()
+        Text
+            
+            We now want to stratify this parameter space by singularity type. For this we need to compute the singular locus of the cubic surface at each point of $\mathbb{P}^{19}$.
+            
+        Example
+            singularLocusAt = point -> ideal jacobian cubicAt point
+        Text
+            
+            As an example we can check that the Fermat-cubic is smooth.
+            
+        Example
+            codim singularLocusAt fermatPoint
+        Text
+            
+            For a singular example we look at the Cayley cubic. It has four $A_1$ singularities:
+            
+        Example
+            cayleyPoint = matrix {{3,-3,-3,-3,-3,1,1,-3,1,-3,3,-3,-3,-3,1,-3,3,-3,-3,3_K}}
+            codim singularLocusAt cayleyPoint
+            degree singularLocusAt cayleyPoint
+        Text
+            
+            We also register this {\tt pointProperty} in the black box:
+            
+        Example
+            bbC = bbC.registerPointProperty("singularLocusAt", singularLocusAt);
+            bbC.pointProperties()
+        Text
+            
+            As a first approximation to the stratification of the space of cubic surfaces by
+            singularity type we look at the degree of the singular locus. Here we must treat
+            the case of $0$ or infinitely many singular points separately.
+            
+        Example
+            degreeSingularLocusAt = (point) -> (
+                 s := singularLocusAt(point);
+                 if dim s == 0 then return 0;
+                 if dim s == 1 then return degree s;
+                 if dim s >= 2 then return infinity
+                 -- these are affine dimensions
+                 )
+        Text
+            
+            Indeed this gives the correct answers for our examples:
+            
+        Example
+            degreeSingularLocusAt fermatPoint
+            degreeSingularLocusAt cayleyPoint
+        Text
+            
+            Again we register this {\tt pointProperty}.
+            
+        Example
+            bbC = bbC.registerPointProperty("degreeSingularLocusAt", degreeSingularLocusAt);
+            bbC.pointProperties()
+        Text
+            
+            Now we are set to start a {\tt FiniteFieldExperiment} to study the stratification of
+            the space of cubic surfaces by the degree of the singular locus.
+    Caveat
+    SeeAlso
+    Subnodes
+///
+
 
  doc ///
     Key
