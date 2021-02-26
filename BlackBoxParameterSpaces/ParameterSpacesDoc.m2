@@ -50,8 +50,47 @@ doc ///
             See @TO "New singularities of cubic surfaces"@ for an
             introductory example describing the basic use of this
             package.
+        Tree
+            :Black box parameter spaces
+                :Creation of black box parameter spaces
+                    @TOH (blackBoxParameterSpace, ZZ, Ring)@
+                :Creation of point properties, i.e. a property at a point of the parameter space
+                    @TOH registerPointProperty@
+                    @TOH updatePointProperty@
+                :Management of point properties associated with a black box parameter space
+                    @TOH pointProperties@
+                    @TOH hasPointProperty@
+                :Attributes of a black box parameter space
+                    :bb.coefficientRing()
+                    :bb.numVariables()
+                    :bb.withChecks -- we don't know what this is yet
+                :Methods of a black box parameter space {\bf bb}
+                    :bb.attributes()
+                    :bb.memberMethods()
+                    :bb.withChecks -- we don't know what this is yet
+            :Black box Ideals
+            :Interpolation and Jets
     Caveat
             The package is probably not threadsafe.
+///
+
+///
+WORKING ON DOC and interface...!
+
+%% \begin{itemize}
+%% \item {\tt blackBoxParameterSpace} - make a new {\tt BlackBoxParameterSpace}
+%% \item {\tt registerPointProperty} or {\tt rpp} - register a new {\tt pointProperty}
+%% \item {\tt updatePointProperty} or {\tt upp} - change an existing {\tt pointProperty}
+%% \item {\tt pointProperties} - list the pointProperties of a black box
+%% \item {\tt hasPointPropery} - check whether a point property is defined
+%% \end{itemize}
+
+kk = ZZ/5
+bb = blackBoxParameterSpace(20, kk)
+fAt = (pt) -> pt_(0,0)
+bb.registerPointProperty("fAt", fAt)  -- TODO: doc for registerPointProperty makes it sound like it does not modify bb.  FIX
+
+note: for next time (4 March 2021): perhaps add memberMethods as methods in M2.
 ///
 
 doc ///
