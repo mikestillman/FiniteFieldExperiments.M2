@@ -1,0 +1,5 @@
+all:
+	pdflatex BlackBoxAndFiniteFieldExperimentsMinimal.tex
+	bibtex BlackBoxAndFiniteFieldExperimentsMinimal
+	pdflatex BlackBoxAndFiniteFieldExperimentsMinimal.tex
+	open BlackBoxAndFiniteFieldExperimentsMinimal.pdf

@@ -54,19 +54,17 @@ doc ///
             :Black box parameter spaces
                 :Creation of black box parameter spaces
                     @TOH (blackBoxParameterSpace, ZZ, Ring)@
-                :Creation of point properties, i.e. a property at a point of the parameter space
-                    @TOH registerPointProperty@
-                    @TOH updatePointProperty@
-                :Management of point properties associated with a black box parameter space
-                    @TOH pointProperties@
-                    @TOH hasPointProperty@
                 :Attributes of a black box parameter space
-                    :bb.coefficientRing()
-                    :bb.numVariables()
+                    @TOH (coefficientRing, BlackBoxParameterSpace)@
+                    @TOH (numVariables, BlackBoxParameterSpace)@
                     :bb.withChecks -- we don't know what this is yet
                 :Methods of a black box parameter space {\bf bb}
                     :bb.attributes()
                     :bb.memberMethods()
+                    @TOH registerPointProperty@
+                    @TOH updatePointProperty@
+                    @TOH pointProperties@
+                    @TOH hasPointProperty@
                     :bb.withChecks -- we don't know what this is yet
             :Black box Ideals
             :Interpolation and Jets
@@ -92,6 +90,63 @@ bb.registerPointProperty("fAt", fAt)  -- TODO: doc for registerPointProperty mak
 
 note: for next time (4 March 2021): perhaps add memberMethods as methods in M2.
 ///
+
+doc ///
+    Key
+        (coefficientRing, BlackBoxParameterSpace)
+    Headline
+        get the coefficient ring
+    Usage
+        coefficientRing bb
+    Inputs
+        bb:BlackBoxParameterSpace
+    Outputs
+        :Ring
+    Description
+        Text
+            Returns the coefficient ring, which is stored inside the black box parameter space.
+        Example
+            kk = ZZ/5;
+            bb = blackBoxParameterSpace(10, kk);
+            coefficientRing bb
+            assert(coefficientRing bb === kk)
+    SeeAlso
+        (numVariables, BlackBoxParameterSpace)
+///
+
+doc ///
+    Key
+        (numVariables, BlackBoxParameterSpace)
+    Headline
+        get the affine dimension of the parameter space
+    Usage
+        numVariables bb
+    Inputs
+        bb:BlackBoxParameterSpace
+    Outputs
+        :ZZ
+    Description
+        Text
+            Points of a black box parameter space are represented as $1 \times n$ matrices
+            over a base field.  This function returns the value $n$, which is also
+            the number of variables in the coordinate ring of ${\mathbb k}^n$.
+        Example
+            kk = ZZ/5;
+            bb = blackBoxParameterSpace(10, kk);
+            numVariables bb
+        Text
+            In the case when we have a black box ideal, this will be the number of variables
+            of the ring of the ideal.
+        Example
+            S = kk[x,y,z];
+            I = ideal(x^5-y^2*z-z^2)
+            bb = blackBoxIdeal I;
+            numVariables bb
+            coefficientRing bb
+    SeeAlso
+        (coefficientRing, BlackBoxParameterSpace)
+///
+
 
 doc ///
     Key

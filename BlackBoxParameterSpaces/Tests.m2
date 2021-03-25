@@ -1,3 +1,22 @@
+TEST ///
+-*
+  restart
+  needsPackage "BlackBoxParameterSpaces"
+*-  
+  kk = ZZ/5
+  bb = blackBoxParameterSpace(10, kk);
+  assert(coefficientRing bb === kk)
+  assert(numVariables bb == 10)
+  bb
+
+  S = kk[x,y,z];
+  I = ideal(x^5-y^2*z-z^2)
+  bb = blackBoxIdeal I;
+  numVariables bb
+  coefficientRing bb
+///
+
+
 ----------------------
 -- Test of Utils -----
 ----------------------

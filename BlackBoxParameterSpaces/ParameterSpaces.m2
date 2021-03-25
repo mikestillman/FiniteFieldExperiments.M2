@@ -75,6 +75,15 @@ net (BlackBoxParameterSpace) := Net =>(bb)->
     return stack L;
 );
 
+----------------------------------------------------
+-- Basic accessor functions ------------------------
+----------------------------------------------------
+
+coefficientRing BlackBoxParameterSpace := bb -> bb.coefficientRing
+numVariables BlackBoxParameterSpace := bb -> bb.numVariables
+
+----------------------------------------------------
+
 -- deduceNumGenerators():
 --
 --   for an (ideal) blackbox, determine the number of   generators (or equations). This is possible in case 
