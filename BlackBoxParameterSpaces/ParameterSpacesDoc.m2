@@ -59,8 +59,8 @@ doc ///
                     @TOH (numVariables, BlackBoxParameterSpace)@
                     :bb.withChecks -- we don't know what this is yet
                 :Methods of a black box parameter space {\bf bb}
-                    :bb.attributes()
-                    :bb.memberMethods()
+                    @TOH attributes@
+                    @TOH memberMethods@
                     @TOH registerPointProperty@
                     @TOH updatePointProperty@
                     @TOH pointProperties@
@@ -88,6 +88,12 @@ bb = blackBoxParameterSpace(20, kk)
 fAt = (pt) -> pt_(0,0)
 bb.registerPointProperty("fAt", fAt)  -- TODO: doc for registerPointProperty makes it sound like it does not modify bb.  FIX
 
+attributes bb
+methods bb
+bb.memberMethods()
+methods BlackBoxParameterSpace := bb -> bb.memberMethods()
+methods bb
+methods BlackBoxParameterSpace
 note: for next time (4 March 2021): perhaps add memberMethods as methods in M2.
 ///
 
@@ -455,31 +461,34 @@ doc ///
     Headline
         register a new point property in a black box.
     Usage   
-        bbI = bbI.registerPointProperty(name,propertyAt)
-        bbI = bbI.rpp(name,propertyAt)
+        registerPointProperty(bb, name, propertyAt)
+        rpp(bb, name, propertyAt)
+        bb.registerPointProperty(name, propertyAt)
+        bb.rpp(name, propertyAt)
     Inputs  
-        bbI: BlackBoxParameterSpace
-        name : String
-          name of the new point property
-        propertAt: Function 
-          that takes coordinates of a point and returns anything.
-    Outputs
-        : BlackBoxParameterSpace
+        bb: BlackBoxParameterSpace
+        name: String
+            name of the new point property
+        propertyAt: Function 
+            that takes coordinates of a point (as a matrix with one row) and returns something
+    Consequences
+        Item
+            the given point property function is stored in the @TO "BlackBoxParameterSpace"@
     Description
         Text
           rpp and 
           registerPointProperty are synonymous. rpp is provided
-          to save typing time...
+          to save typing time.
           
-          This method is used to register new property in a
-          blackBoxIdeal or a blackBoxParameterSpace. 
+          This method is used to register a new point property in a
+          BlackBoxIdeal or a BlackBoxParameterSpace. 
           
           Lets for example build a black box parameter space
-          for cubic surfaces in IP^3 over the finite field with
+          for cubic surfaces in ${\mathbb P}^3$ over the finite field with
           7 Elements.
         Example
-          Fp = ZZ/7
-          R = Fp[x,y,w,z]
+          Fp = ZZ/7;
+          R = Fp[x,y,w,z];
         Text
           there are 20 monomials of degree 3 in 4 variables
         Example
@@ -491,34 +500,52 @@ doc ///
         Text
           This has no known point properties 
         Example
-           bbC.pointProperties()
+          pointProperties bbC
         Text
           We now make a function that constructs a cubic
           polynomial from 20 parameters
         Example
-          cubicAt = (point) -> point*transpose mons3
-          cubicAt(matrix{{1_Fp,19:0}})
+          cubicAt = (point) -> (point * transpose mons3)_(0,0);
+          cubicAt matrix{{1_Fp, 19:0}}
           fermatPoint = matrix {{1_Fp,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1}}
-          cubicAt(fermatPoint)
+          cubicAt fermatPoint
         Text
           To have this available inside the blackbox we need to register
           it
         Example
-          bbC = bbC.registerPointProperty("cubicAt",cubicAt);
-          bbC.pointProperties()
+          registerPointProperty(bbC, "cubicAt",cubicAt);
+          pointProperties bbC
         Text
           Now we can use the property from the black box
         Example
-          bbC#"cubicAt"(fermatPoint)
-          bbC.cubicAt(fermatPoint)
+          bbC#"cubicAt" fermatPoint
+          bbC.cubicAt fermatPoint
         Text
           Registering a point property is useful when the black box
           is used in a finite field experiment. Registered
           point properties are available to an experiment while it is
           running. Also it is useful to register for bookkeeping reasons,
-          so that for example pointProperties will return
-          the correct answer.
+          so that for example the list returned by @TO pointProperties@ 
+          will contain the name of the registered function.
+    SeeAlso
+        "pointProperties"
+        "updatePointProperty"
+        "FiniteFieldExperiments::FiniteFieldExperiments"
 ///
+
+-- TODO: use this node (registerPointProperty) as a "template" for the nodes:
+-- These need setting up methods, and doc.
+      --   hasPointProperty
+      --   pointPropertiesAsSymbols
+      --   setSingularityTestOptions
+-- These need documentation only (methods have been set up already)
+      --   attributes
+      --   memberMethods
+      --   pointProperties
+      --   registerPointProperty (DONE)
+      --   rpp (DONE)
+      --   updatePointProperty
+      --   upp
 
 doc ///
     Key

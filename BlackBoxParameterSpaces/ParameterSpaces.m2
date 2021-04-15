@@ -82,6 +82,20 @@ net (BlackBoxParameterSpace) := Net =>(bb)->
 coefficientRing BlackBoxParameterSpace := bb -> bb.coefficientRing
 numVariables BlackBoxParameterSpace := bb -> bb.numVariables
 
+registerPointProperty = method()
+registerPointProperty(BlackBoxParameterSpace, String, Function) := (bb, name, fcn) ->
+    bb.registerPointProperty(name, fcn)
+
+rpp = registerPointProperty
+
+updatePointProperty = method()
+updatePointProperty(BlackBoxParameterSpace, String, Function) := (bb, name, fcn) ->
+    bb.updatePointProperty(name, fcn)
+
+upp = updatePointProperty
+
+    
+
 ----------------------------------------------------
 
 -- deduceNumGenerators():
@@ -889,8 +903,6 @@ blackBoxParameterSpaceInternal( Type, ZZ, Ring  ) := HashTable => ( resultType, 
     -- Usually providing the corresponding symbol is not necessary, but it could be, since each package has its own symbol scope.
     --
   
-    --
-    
     blackBox.registerPointProperty = method();    
     
     -- todo: this method with this interface should not be publicly visible or accessible (is an internal one)

@@ -34,17 +34,26 @@ Todo:
 
 * January 2021
     - break up packages into multiple files.
+    - DONE: BlackBoxIdeals: rename to BlackBoxParameterSpaces.
+    - Chris: shorten the tex file to only the parameter space version. DONE
+    - Chris: add in the cubic example using the \begin{m2}\end{m2} DONE
+    - Mike: add in code needed to run the m2 examples, replace blocks with input and output (DONE)
+    - Mike: finish tex file (after Chris has made next version) DONE
+    - after we are happy with it: we put it back into the package documentation
+    -  (Mike: check on katex use: DONE, newest version of M2 does this).
+      some itemize lists, and links might be to be handled by hand.
+    - these are the packages to get ready for distribution with M2
+      BlackBoxParameterSpaces, FiniteFieldExperiments, M2Logging, IntervalPkg.
+    - fix bugs and interface for BlackBoxParameterSpaces
 
-- DONE: BlackBoxIdeals: rename to BlackBoxParameterSpaces.
-- Chris: shorten the tex file to only the parameter space version.
-- Chris: add in the cubic example using the \begin{m2}\end{m2}
-- Mike: add in code needed to run the m2 examples, replace blocks with input and output
-- Mike: finish tex file (after Chris has made next version)
-- after we are happy with it: we put it back into the package documentation
--  (Mike: check on katex use: DONE, newest version of M2 does this).
-   some itemize lists, and links might be to be handled by hand.
-- these are the packages to get ready for distribution with M2
-   BlackBoxParameterSpaces, FiniteFieldExperiments, M2Logging, IntervalPkg.
-- fix bugs and interface for BlackBoxParameterSpaces
-
-    
+* April 2021
+    - TODO in ParametersSpacesDoc.m2 has further specific doc and method changes
+    - (For next meeting: 15 April 2021) break up package FiniteFieldExperiments into multiple files,
+      like we did for BlackBoxParameterSpaces    
+    - redo top level documentation, starting from the tex file
+    - possibly: need some some methods for FiniteFieldExperiments?
+    - then go back and add in links to FiniteFieldExperiments methods from BlackBoxParameterSpaces doc
+    - rewrite tex file for BlackBoxIdeals and Jets
+    - top level doc for these two (in BlackBoxParameterSpaces), and method calls.
+    - eventually Interpolation (this is later).
+            
