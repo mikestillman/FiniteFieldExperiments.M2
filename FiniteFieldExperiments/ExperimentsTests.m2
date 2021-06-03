@@ -106,3 +106,91 @@ TEST ///
     wrpi = createRandomPointIterator(weakPoint);
     e.setPointGenerator(weakPoint);
 ///
+
+TEST ///
+    -- loadPackage "FiniteFieldExperiments"
+    debug FiniteFieldExperiments
+    FiniteFieldExperimentsProtect()
+    coeffRing := ZZ/3;
+    bbRankM = blackBoxParameterSpace( 5 ,coeffRing )
+    rankMat := (point)->5
+    bbRankM.registerPointProperty("rankJacobianAt",rankMat)
+
+
+    point := matrix {{1,2,3,4,5}};
+    point = sub( point, coeffRing);
+
+ 
+    --bbRankM = bbRankM.getUpdatedBlackBox(bbRankM)
+ 
+
+    e = new Experiment from bbRankM
+    assert (e.coefficientRing()===coeffRing);
+
+    e.setPointsPerComponent(20);
+    assert( e.pointsPerComponent()==20);
+    FFELogger.setLogLevel(4);
+    e.watchProperties {"rankJacobianAt"};
+    e.watchedProperties()
+    assert( 1== # select( e.watchedProperties() , 
+                       (prop)->(prop=="rankJacobianAt") ) 
+     )
+    e.useRankJacobianAt("rankJacobianAt");
+    --e.useRankJacobianAt(null);
+   
+    e.countsByCount()
+    points := e.points();
+    #points
+    apply(points,point->rankMat(point))
+    FFELogger.setLogLevel(2);
+    time e.run(1000)
+    assert (e.trials()==1000);
+
+    e.estimateStratification()
+    e.estimateDecomposition()
+  
+    e.collectedCount()
+    e.watchedProperties()
+    e.rankJacobianAtKey()
+
+    bbRankM.pointProperties()
+
+    -- e.stratificationIntervalView() -- test fails here; d
+
+///
+
+TEST ///
+-- test issue #57
+prime = 11
+K = ZZ/prime
+R = K[x,y,z,w]
+betti res (I = minors(2,random(R^{2:0},R^{3:-1})))
+projI = eliminate(w,I)
+
+bb = blackBoxIdeal I;
+e = new Experiment from bb;
+f = new Experiment from bb;
+///
+
+TEST ///
+    -- test watching user defined rankJacobianAt
+    K = ZZ/5;
+    R = K[x,y,z];
+    I = ideal (x*z,y*z);
+    bb = blackBoxIdeal I;
+
+    rankAllways5At = (point) -> 5;
+    bb = bb.rpp("rankAllways5At",rankAllways5At);
+
+    assert(bb.hasPointProperty("rankAllways5At"));
+    e = new Experiment from bb;
+
+    e.run(100)
+
+    e.clear()
+    e.useRankJacobianAt("rankAllways5At")
+    assert(e.propertyIsWatched( "rankAllways5At"));
+    assert(1 == #(e.watchedProperties()) );
+    e.run(100)
+    assert( 1 == #( e.collectedCount() ) );
+///
