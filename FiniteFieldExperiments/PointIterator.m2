@@ -2,18 +2,18 @@
 PointIterator = new Type of HashTable;
 new PointIterator from Thing := (E, thing) -> 
 (
-    error("not impelemted");
+    error("not implemented");
 );
 
 RandomPointIterator = new Type of PointIterator;
 new RandomPointIterator from Thing := (E, thing) -> 
 (
-    error("not impelemted");
+    error("not implemented");
 );
 
 createRandomPointIterator = method();
 
-createRandomPointIterator (Function) := RandomPointIterator =>( weakRandomPointGenerator )->
+createRandomPointIterator (Function) := RandomPointIterator => ( weakRandomPointGenerator )->
 (
     -- todo improvement: use own seek and remember initial seek to get reproducible    
     rpi := new MutableHashTable;
@@ -68,7 +68,7 @@ createRandomPointIterator (Function) := RandomPointIterator =>( weakRandomPointG
     return rpi;
 )
 
-createRandomPointIterator (Ring,ZZ) := HashTable =>( coeffRing,numVariables )->
+createRandomPointIterator (Ring,ZZ) := RandomPointIterator => ( coeffRing,numVariables )->
 (
     rpi := new MutableHashTable;
     randomPoint := null;

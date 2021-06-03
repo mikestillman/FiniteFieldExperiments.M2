@@ -91,7 +91,7 @@ doc ///
    Inputs  
         e:Experiment 
             an Experiment
-        itearator: HashTable
+        iterator: HashTable
             defining a point iterator            
    Description
         Text

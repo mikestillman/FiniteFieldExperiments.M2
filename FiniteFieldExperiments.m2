@@ -49,7 +49,9 @@ export {
   "InterpolatedImage",
   "FFELogger",
   "ringCardinality",
-  "createInterpolatedImage"
+  "createInterpolatedImage",
+  "PointIterator",
+  "RandomPointIterator"
 }
 
 FiniteFieldExperimentsProtect = ()->
@@ -302,8 +304,10 @@ load "FiniteFieldExperiments/Experiment.m2"
 
 beginDocumentation()
 
-load "FiniteFieldExperiments/ExperimentsDoc.m2"
-
+load "FiniteFieldExperiments/DocExperiment.m2"
+load "FiniteFieldExperiments/DocEstimatedDecomposition.m2"
+load "FiniteFieldExperiments/DocEstimatedStratification.m2"
+load "FiniteFieldExperiments/DocPointIterator.m2"
 
 end------------------------------------------------------------------
 

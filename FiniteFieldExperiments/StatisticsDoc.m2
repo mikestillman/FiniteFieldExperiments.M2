@@ -1,2 +1,0 @@
--- doc for statistics functions
-
