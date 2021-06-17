@@ -335,8 +335,12 @@ doc ///
            e.pointsPerComponent()
            e.collectedCount() 
         Text
-           Here we have not collected exactly 10 points per component since the experiment uses the upper end of the confidence interval for the number of components ( see @TO estimateNumberOfComponents@) as guide for the number of points to keep.
-           The amount of stored points can be adjusted:
+           Here we have not collected exactly 10 points per component
+           since the experiment uses the upper end of the confidence
+           interval for the number of components ( see @TO
+           "estimateNumberOfComponents"@) as guide for the number of
+           points to keep.  The amount of stored points can be
+           adjusted:
         Example
            e.setPointsPerComponent(20)
            -- collect about 20 points per component now:

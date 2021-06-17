@@ -49,14 +49,14 @@ Todo:
 * April 2021
     - TODO in ParametersSpacesDoc.m2 has further specific doc and method changes
     - (For next meeting: 15 April 2021) break up package FiniteFieldExperiments into multiple files,
-      like we did for BlackBoxParameterSpaces MOSTLY DONE
-    - remove exportMutable lists, clean up export list as we did in BlackBoxParameterSpaces
+      like we did for BlackBoxParameterSpaces DONE
+    - remove exportMutable lists, clean up export list as we did in BlackBoxParameterSpaces DONE
     - fix the example at the end of FiniteFieldExperiments.m2
-    - break up the doc into several files, like for code, and BlackBoxParameterSpaces
+    - break up the doc into several files, like for code, and BlackBoxParameterSpaces DONE
     - add in more TEST's into FiniteFieldExperiments
     - in ringCardinality, remove use of try.  Other places too?
-    - redo top level documentation, starting from the tex file
-    - possibly: need some some methods for FiniteFieldExperiments?
+    - redo top level documentation, starting from the tex file TODO NEXT TIME (JULY 2021)
+    - possibly: need some methods for FiniteFieldExperiments? (e.g. e.run() to run(e))
     - then go back and add in links to FiniteFieldExperiments methods from BlackBoxParameterSpaces doc
     - rewrite tex file for BlackBoxIdeals and Jets
     - top level doc for these two (in BlackBoxParameterSpaces), and method calls.
