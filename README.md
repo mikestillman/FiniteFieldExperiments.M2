@@ -56,6 +56,7 @@ Todo:
     - add in more TEST's into FiniteFieldExperiments
     - in ringCardinality, remove use of try.  Other places too?
     - redo top level documentation, starting from the tex file TODO NEXT TIME (JULY 2021)
+      On July 8, also: write landing pages for the various routines in the package.
     - possibly: need some methods for FiniteFieldExperiments? (e.g. e.run() to run(e))
     - then go back and add in links to FiniteFieldExperiments methods from BlackBoxParameterSpaces doc
     - rewrite tex file for BlackBoxIdeals and Jets

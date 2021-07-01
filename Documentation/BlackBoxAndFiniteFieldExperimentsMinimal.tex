@@ -157,26 +157,45 @@
 
 \section{introduction}
 
-This article describes the packages {\tt BlackBoxParameterSpaces}  and
- {\tt FiniteFieldExperiments} that are mostly used together, but the first one can also be used alone for some applications.
+This article describes the packages {\tt BlackBoxParameterSpaces} and
+{\tt FiniteFieldExperiments} that are mostly used together, but the
+first one can also be used alone for some applications.
 
-The purpose of these packages is to study moduli spaces or more generally parameter spaces $X$ together with their universal families. This study comes in two flavours:
+The purpose of these packages is to support the study moduli spaces or more
+generally parameter spaces $X$ together with their universal
+families. This study comes in two flavours:
 
 \begin{enumerate}
-\item The first situation is one, in which one has a unirational parametrisation 
+\item In the first situation one is given a unirational parametrisation 
 \[
 	\phi \colon \AA^n \to X
 \]
-of some parameter space. In this situation one is often interested in the stratification of $X$ by some property of the parametrised objects. Our running example for this type of question is the stratification of the space of cubic surfaces in $\PP^3$ by singularity type. Here $X$ is represented by a {\tt BlackBoxParameterSpace}.
+of some parameter space.  One is often interested in
+the stratification of $X$ by some property of the parametrised
+objects. Our running example for this type of question is the
+stratification of the space of cubic surfaces in $\PP^3$ by
+singularity type. Here $X$ is represented by a {\tt
+  BlackBoxParameterSpace}.
 
 \item In the second situation $X$ is given as a subvariety of some larger unirational moduli space
 \[
 	X \subset \AA^n.
 \]
-Here one is interested in the components of $X$ and their moduli interpretation. Our running example in this case is the variety of complexes. Here $X$ is represented by a {\tt BlackBoxIdeal}.
+Here one is often interested in the components of $X$ and their moduli
+interpretation. Our running example in this case is the variety of
+complexes. Here $X$ is represented by a {\tt BlackBoxIdeal}.
 \end{enumerate}
 
-In both cases the study of $X$ is done over a finite field by looking at a large number of random points in $\AA^n$. Since we are over a finite field, we have some non zero chance of finding points in interesting strata (in the first case) or on interesting components (in the second case). Moreover the statistics of such a finite field experiment contain non trivial heuristic information about the stratification (in the first case) or the irreducible components of $X$ (in the second case). The interesting points and the statistical information generated are collected in an object of type {\tt FiniteFieldExperiment}.
+In both cases the study of $X$ is done over a finite field by looking
+at a large number of random points in $\AA^n$. Since we are over a
+finite field, we have some non zero chance of finding points in
+interesting strata (in the first case) or on interesting components
+(in the second case). Moreover the statistics of such a finite field
+experiment contain non trivial heuristic information about the
+stratification (in the first case) or the irreducible components of
+$X$ (in the second case). The interesting points and the statistical
+information generated are collected in an object of type {\tt
+  FiniteFieldExperiment}.
 
 In our implementation the package {\tt BlackBoxParameterSpaces} contains the tools to set up a parameter space $X$ as above together with its universal family, so that it can be used in a finite field experiment. It also provides some black-box-algorithms that still work if instead of the equations of $X \subset \AA^n$ only an algorithm to evaluate the equations is given. To explain the difference between an equation and an evaluation algorithm we look at the example of determinants.
 
